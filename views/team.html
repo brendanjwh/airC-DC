@@ -85,10 +85,6 @@ var button5 = new Image();
 button5.src ="images/crowd.png";
 var buttonData5 = { image:button5, x:0, y:800, w:1800, h:100 };
 
-var button6 = new Image();
-button6.src ="images/lights.jpeg";
-var buttonData6 = { image:button6, x:0, y:0, w:1400, h:1000 };
-
 
 
 
@@ -97,7 +93,7 @@ function render()
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-    layer2Context.drawImage( button6, 0, 0, 1400, 1000 );
+    
     layer2Context.drawImage( button5, 0, 800, 1800, 100 );
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );

@@ -52,16 +52,58 @@
 <div id="messageError"></div>
 <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
 
-
+<audio id="trumpbuildwall">
+    <source src='/assets/audio/trumpbuildwall.mp3'></source>
+  </audio>
+  <audio id="trumpchina">
+    <source src='/assets/audio/trumpchina.mp3'></source>
+  </audio>
+  <audio id="trumpjail">
+    <source src='/assets/audio/trumpjail.mp3'></source>
+  </audio>
+  <audio id="trumprich">
+    <source src='/assets/audio/trumprich.mp3'></source>
+  </audio>
+  <audio id="trumpstopit">
+    <source src='/assets/audio/trumpstopit.mp3'></source>
+  </audio>
+  <audio id="trumpwrong">
+    <source src='/assets/audio/trumpwrong.mp3'></source>
+  </audio>
 
 <script>      
 
 var buttons = [];
 
-var button2 = new Image();
-button2.src ="images/Chris.png";
-var buttonData2 = { name:"Chris Frazzini", email:"cfrazzin@inindiana.edu", github:"https://github.com/CFrazz25", image:button2, x:500, y:500, w:1, h:1 };
-buttons.push( buttonData2 );
+var button1 = new Image();
+button1.src ="assets/images/trump1.jpeg";
+var buttonData1 = { name:"trump", image:button1, x:500, y:500, w:1, h:1 };
+buttons.push( buttonData1 );
+
+function playSound(sound){
+  console.log(sound);
+  var audio = document.getElementById(sound);
+  console.log(audio);
+  if (readyToPlay(audio) === true) {
+    delay(audio);
+    audio.play();
+  }
+ }
+
+function readyToPlay(soundTime) {
+  console.log(soundTime);
+  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
+    return true
+  } else {
+  return false
+  }
+}
+
+function delay(sound) {
+  if (sound.duration > 0 && !sound.paused) {
+      sound.currentTime = 0;
+    }
+  } 
 
 
 
@@ -78,7 +120,7 @@ function render()
 }
 
 
-
+var sounds = ["trumpbuildwall", "trumpchina", "trumpjail", "trumprich", "trumpstopit", "trumpwrong"]
 
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
@@ -103,6 +145,8 @@ function checkAreas()
     if (average > 50) // more than 20% movement detected
     {
 
+      playSound(sounds[Math.floor(Math.random() * sounds.length)])
+
       buttons.pop()
       layer2Context.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
       var number = Math.random() * 1100
@@ -112,11 +156,40 @@ function checkAreas()
       var random_position2 = Math.floor(number2)
       console.log(random_position2)
 
-      var button1 = new Image();
-      button1.src ="images/Chris.png";
-      var buttonData1 = { name:"Chris Frazzini", image:button1, x:random_position, y:random_position2, w:300, h:300 };
-      buttons.push( buttonData1 );
-      layer2Context.drawImage( buttonData1.image, buttonData1.x, buttonData1.y, buttonData1.w, buttonData1.h );
+
+      var button2 = new Image();
+      button2.src ="assets/images/trump5.jpeg";
+      var buttonData2 = { name:"trump", image:button2, x:random_position, y:random_position2, w:175, h:175 };
+      buttons.push( buttonData2 );
+
+      // var button3 = new Image();
+      // button3.src ="assets/images/trump3.jpeg";
+      // var buttonData3 = { name:"Trump", image:button3, x:random_position, y:random_position2, w:175, h:175 };
+      // buttons.push( buttonData3 );
+
+      // var button4 = new Image();
+      // button4.src ="assets/images/trump2.jpeg";
+      // var buttonData4 = { name:"Trump", image:button4, x:random_position, y:random_position2, w:175, h:175 };
+      // buttons.push( buttonData4 );
+
+      // var button5 = new Image();
+      // button5.src ="assets/images/trump5.jpeg";
+      // var buttonData5 = { name:"Trump", image:button5, x:random_position, y:random_position2, w:175, h:175 };
+      // buttons.push( buttonData5 );
+
+      // var button6 = new Image();
+      // button6.src ="assets/images/trump6.jpeg";
+      // var buttonData6 = { name:"Trump", image:button6, x:random_position, y:random_position2, w:175, h:175 };
+      // buttons.push( buttonData6 );
+
+      // var button7 = new Image();
+      // button7.src ="assets/images/trump1.jpeg";
+      // var buttonData7 = { name:"Trump", image:button7, x:random_position, y:random_position2, w:175, h:175 };
+      // buttons.push( buttonData7 );
+
+      layer2Context.drawImage( buttonData2.image, buttonData2.x, buttonData2.y, buttonData2.w, buttonData2.h );
+
+      // layer2Context.drawImage( (buttons[Math.floor(Math.random() * buttons.length)].image), (buttons[Math.floor(Math.random() * buttons.length)].x), (buttons[Math.floor(Math.random() * buttons.length)].y), (buttons[Math.floor(Math.random() * buttons.length)].w), (buttons[Math.floor(Math.random() * buttons.length)].h) );
 
 
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
