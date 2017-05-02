@@ -7,6 +7,11 @@ html {
   src: url("/images/squealer.ttf") format('truetype');
 }
 
+@font-face {
+  font-family: "Xerox";
+  src: url("/images/Xerox.ttf") format('truetype');
+}
+
 body {
   background-color: white; 
   margin: auto;
@@ -189,7 +194,7 @@ table {
 }
 
 #team {
-  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  font-family: "Xerox";
 }
 
 #music {
