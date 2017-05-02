@@ -5,7 +5,7 @@
   <!-- http://www.webrtc.org/ -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="assets/styles.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 <style>
   #monitor {
@@ -52,28 +52,28 @@
 
 
   <audio id="High Purple Key">
-    <source src='/assets/audio/high_C.mp3'></source>
+    <source src='/audio/high_C.mp3'></source>
   </audio>
   <audio id="Red Key">
-    <source src='/assets/audio/D.mp3'></source>
+    <source src='/audio/D.mp3'></source>
   </audio>
   <audio id="Orange Key">
-    <source src='/assets/audio/E.mp3'></source>
+    <source src='/audio/E.mp3'></source>
   </audio>
   <audio id="Yellow Key">
-    <source src='/assets/audio/F.mp3'></source>
+    <source src='/audio/F.mp3'></source>
   </audio>
   <audio id="Green Key">
-    <source src='/assets/audio/G.mp3'></source>
+    <source src='/audio/G.mp3'></source>
   </audio>
   <audio id="Light Green Key">
-    <source src='/assets/audio/A.mp3'></source>
+    <source src='/audio/A.mp3'></source>
   </audio>
   <audio id="Blue Key">
-    <source src='/assets/audio/B.mp3'></source>
+    <source src='/audio/B.mp3'></source>
   </audio>
   <audio id="Purple Key">
-    <source src='/assets/audio/C.mp3'></source>
+    <source src='/audio/C.mp3'></source>
   </audio> 
 
 
@@ -82,51 +82,51 @@
 var buttons = [];
 
 var button11 = new Image();
-button11.src ="assets/images/purple_piano_key.png";
+button11.src ="/images/purple_piano_key.png";
 var buttonData11 = { name:"High Purple Key", image:button11, x:1000, y:500, w:100, h:300 };
 buttons.push( buttonData11 );
 
 var button1 = new Image();
-button1.src ="assets/images/red_piano_key.png";
+button1.src ="/images/red_piano_key.png";
 var buttonData1 = { name:"Red Key", image:button1, x:900, y:500, w:100, h:300 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
-button2.src ="assets/images/orange_piano_key.png";
+button2.src ="/images/orange_piano_key.png";
 var buttonData2 = { name:"Orange Key", image:button2, x:800, y:500, w:100, h:300 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
-button3.src ="assets/images/yellow_piano_key.png";
+button3.src ="/images/yellow_piano_key.png";
 var buttonData3 = { name:"Yellow Key", image:button3, x:700, y:500, w:100, h:300 };
 buttons.push( buttonData3 );
 
 var button5 = new Image();
-button5.src ="assets/images/green_piano_key.png";
+button5.src ="/images/green_piano_key.png";
 var buttonData5 = { name:"Green Key", image:button5, x:600, y:500, w:100, h:300 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
-button6.src ="assets/images/lightgreen_piano_key.png";
+button6.src ="/images/lightgreen_piano_key.png";
 var buttonData6 = { name:"Light Green Key", image:button6, x:500, y:500, w:100, h:300 };
 buttons.push( buttonData6 );
 
 var button7 = new Image();
-button7.src ="assets/images/blue_piano_key.png";
+button7.src ="/images/blue_piano_key.png";
 var buttonData7 = { name:"Blue Key", image:button7, x:400, y:500, w:100, h:300 };
 buttons.push( buttonData7 );
 
 var button8 = new Image();
-button8.src ="assets/images/purple_piano_key.png";
+button8.src ="/images/purple_piano_key.png";
 var buttonData8 = { name:"Purple Key", image:button8, x:300, y:500, w:100, h:300 };
 buttons.push( buttonData8 );
 
 var button9 = new Image();
-button9.src ="assets/images/crowd.png";
+button9.src ="/images/crowd.png";
 var buttonData9 = { image:button9, x:0, y:800, w:1800, h:100 };
 
 var button10 = new Image();
-button10.src ="assets/images/lights.jpeg";
+button10.src ="/images/lights.jpeg";
 var buttonData10 = { image:button10, x:0, y:0, w:1400, h:1000 };
 
 function playSound(sound){
@@ -218,7 +218,7 @@ function checkAreas()
 }
 
 </script>
-<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="javascripts/music_app.js"></script>
 
 </body>
 </html>

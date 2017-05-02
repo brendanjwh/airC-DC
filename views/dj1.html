@@ -6,7 +6,7 @@
   <!-- http://www.webrtc.org/ -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-<link rel="stylesheet" type="text/css" href="assets/styles.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 <style>
   #monitor {
       display: none;
@@ -65,61 +65,61 @@
 var buttons = [];
 
 var button1 = new Image();
-button1.src ="assets/images/bass_amp.jpeg";
+button1.src ="images/bass_amp.jpeg";
 var buttonData1 = { name:"Bass", image:button1, x:1300, y:700, w:75, h:75 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
-button2.src ="assets/images/drums.jpeg";
+button2.src ="images/drums.jpeg";
 var buttonData2 = { name:"Drums", image:button2, x:1100, y:150, w:75, h:75 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
-button3.src ="assets/images/guitar.jpeg";
+button3.src ="images/guitar.jpeg";
 var buttonData3 = { name:"Guitar", image:button3, x:900, y:150, w:75, h:75  };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
-button4.src ="assets/images/piano.jpeg";
+button4.src ="images/piano.jpeg";
 var buttonData4 = { name:"Piano", image:button4, x:700, y:150, w:75, h:75 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
-button5.src ="assets/images/violin.jpeg";
+button5.src ="images/violin.jpeg";
 var buttonData5 = { name:"Violin", image:button5, x:500, y:150, w:75, h:75 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
-button6.src ="assets/images/crowd.png";
+button6.src ="images/crowd.png";
 var buttonData6 = { image:button6, x:0, y:800, w:1800, h:100 };
 
 var button7 = new Image();
-button7.src ="assets/images/lights.jpeg";
+button7.src ="images/lights.jpeg";
 var buttonData7 = { image:button7, x:0, y:0, w:1400, h:1000 };
 
 var button8 = new Image();
-button8.src ="assets/images/mic.jpeg";
+button8.src ="images/mic.jpeg";
 var buttonData8 = { name:"Beer Voice", image:button8, x:300, y:150, w:75, h:75 };
 buttons.push( buttonData8 );
 
 var button9 = new Image();
-button9.src ="assets/images/song.png";
+button9.src ="images/song.png";
 var buttonData9 = { name:"Song", image:button9, x:100, y:700, w:75, h:75 };
 buttons.push( buttonData9 );
 
 var button10 = new Image();
-button10.src ="assets/images/mic.jpeg";
+button10.src ="images/mic.jpeg";
 var buttonData10 = { name:"Darth Vader", image:button10, x:300, y:450, w:75, h:75 };
 buttons.push( buttonData10 );
 
-var trancebass_audio = new Audio("assets/audio/electrobass.mp3");
-var drummix_audio = new Audio("assets/audio/drum_mix.mp3");
-var guitar_audio = new Audio("assets/audio/guitar.mp3");
-var piano_audio = new Audio("assets/audio/piano.mp3");
-var violin_audio = new Audio("assets/audio/violin.mp3");
-var beer_audio = new Audio("assets/audio/ineedabeervoice.mp3");
-var marshmello_audio = new Audio("assets/audio/marshmello.mp3");
-var darthvader_audio = new Audio("assets/audio/darthvadervoice.mp3");
+var trancebass_audio = new Audio("audio/electrobass.mp3");
+var drummix_audio = new Audio("audio/drum_mix.mp3");
+var guitar_audio = new Audio("audio/guitar.mp3");
+var piano_audio = new Audio("audio/piano.mp3");
+var violin_audio = new Audio("audio/violin.mp3");
+var beer_audio = new Audio("audio/ineedabeervoice.mp3");
+var marshmello_audio = new Audio("audio/marshmello.mp3");
+var darthvader_audio = new Audio("audio/darthvadervoice.mp3");
 
 
 // called in animate function
@@ -308,7 +308,7 @@ function checkAreas()
 
 </script>
 
-<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="javascripts/music_app.js"></script>
 
 </body>
 </html>
