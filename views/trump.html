@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <title>AirC&#9889DC</title>
+  <!-- http://www.webrtc.org/ -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" type="text/css" href="assets/styles.css" media="screen">
+<style>
+  #monitor {
+      display: none;
+    }
+
+    #blendCanvas {
+      display: none;
+    }
+  </style>
+</head>
+<body id="team">
+<table align="center">
+  <tr>
+    <th><button class="button" type="button" onclick="window.location.href='/drum_set.html'" autofocus>Air Drums</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/piano.html'" autofocus>Air Piano</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set.html'" autofocus>Air DJ Set 1</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set#2.html'" autofocus>Air DJ Set 2</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/the_team.html'" autofocus>About the Team</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/behind_the_scenes.html'" autofocus>Behind the Scenes</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/home.html'" autofocus>Home</button></th>
+  </tr>
+</table>
+
+<video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
+
+
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center">
+<!-- video canvas is the mirror -->
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+
+<!-- layer 2 has the button/instrument detections in them -->
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+</div>
+
+<!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
+<canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
+
+
+<div id="messageError"></div>
+<div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
+
+
+
+<script>      
+
+var buttons = [];
+
+var button2 = new Image();
+button2.src ="assets/images/Chris.png";
+var buttonData2 = { name:"Chris Frazzini", email:"cfrazzin@inindiana.edu", github:"https://github.com/CFrazz25", image:button2, x:500, y:500, w:1, h:1 };
+buttons.push( buttonData2 );
+
+
+
+// called in animate function
+function render() 
+{ 
+  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+  {
+    // mirror video
+    videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+
+  }
+
+}
+
+
+
+
+// check if white region from blend overlaps area of interest (e.g. buttons)
+function checkAreas() 
+{
+  // buttons are the images being touched
+  for (var b = 0; b < buttons.length; b++) 
+  {
+    // get the pixels in a note area from the blended image. blendContext is the black and white canvas, the one showing the white imagery for motion movement. 
+    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
+      
+    // calculate the average lightness of the blended data
+    var i = 0;
+    var sum = 0;
+    var countPixels = blendedData.data.length * 0.25;
+    while (i < countPixels) 
+    {
+      sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
+      ++i;
+    }
+    // calculate an average between of the color values of the note area [0-255]
+    var average = Math.round(sum / (3 * countPixels));
+    if (average > 50) // more than 20% movement detected
+    {
+
+      buttons.pop()
+      layer2Context.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+      var number = Math.random() * 1100
+      var random_position = Math.floor(number)
+      console.log(random_position)
+      var number2 = Math.random() * 600
+      var random_position2 = Math.floor(number2)
+      console.log(random_position2)
+
+      var button1 = new Image();
+      button1.src ="assets/images/Chris.png";
+      var buttonData1 = { name:"Chris Frazzini", image:button1, x:random_position, y:random_position2, w:300, h:300 };
+      buttons.push( buttonData1 );
+      layer2Context.drawImage( buttonData1.image, buttonData1.x, buttonData1.y, buttonData1.w, buttonData1.h );
+
+
+      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
+      messageArea.innerHTML = "<font size='+10' color='black'><b>Name: " + buttons[b].name + " email:" + buttons[b].email + " Github:" + buttons[b].github + ".</b></font>";
+    }
+  }
+}
+
+</script>
+
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
+

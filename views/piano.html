@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>AirC&#9889DC</title>
+  <!-- http://www.webrtc.org/ -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="assets/styles.css" media="screen">
+
+<style>
+  #monitor {
+      display: none;
+    }
+
+    #blendCanvas {
+      display: none;
+    }
+  </style>
+  
+</head>
+<body id="drum">
+<table align="center">
+  
+  <tr>
+  
+    <th><button class="button" type="button" onclick="window.location.href='/drum_set.html'" autofocus>Air Drums</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set.html'" autofocus>Air DJ Set 1</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set#2.html'" autofocus>Air DJ Set 2</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/trump_mode.html'" autofocus>Trump Mode</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/the_team.html'" autofocus>About the Team</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/behind_the_scenes.html'" autofocus>Behind the Scenes</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/home.html'" autofocus>Home</button></th>
+  </tr>
+</table>
+
+<video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
+
+
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center">
+<!-- video canvas is the mirror -->
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+
+<!-- layer 2 has the button/instrument detections in them -->
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+</div>
+
+<!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
+<canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
+
+<div id="messageError"></div>
+<div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
+
+
+  <audio id="High Purple Key">
+    <source src='/assets/audio/high_C.mp3'></source>
+  </audio>
+  <audio id="Red Key">
+    <source src='/assets/audio/D.mp3'></source>
+  </audio>
+  <audio id="Orange Key">
+    <source src='/assets/audio/E.mp3'></source>
+  </audio>
+  <audio id="Yellow Key">
+    <source src='/assets/audio/F.mp3'></source>
+  </audio>
+  <audio id="Green Key">
+    <source src='/assets/audio/G.mp3'></source>
+  </audio>
+  <audio id="Light Green Key">
+    <source src='/assets/audio/A.mp3'></source>
+  </audio>
+  <audio id="Blue Key">
+    <source src='/assets/audio/B.mp3'></source>
+  </audio>
+  <audio id="Purple Key">
+    <source src='/assets/audio/C.mp3'></source>
+  </audio> 
+
+
+<script>     
+
+var buttons = [];
+
+var button11 = new Image();
+button11.src ="assets/images/purple_piano_key.png";
+var buttonData11 = { name:"High Purple Key", image:button11, x:1000, y:500, w:100, h:300 };
+buttons.push( buttonData11 );
+
+var button1 = new Image();
+button1.src ="assets/images/red_piano_key.png";
+var buttonData1 = { name:"Red Key", image:button1, x:900, y:500, w:100, h:300 };
+buttons.push( buttonData1 );
+
+var button2 = new Image();
+button2.src ="assets/images/orange_piano_key.png";
+var buttonData2 = { name:"Orange Key", image:button2, x:800, y:500, w:100, h:300 };
+buttons.push( buttonData2 );
+
+var button3 = new Image();
+button3.src ="assets/images/yellow_piano_key.png";
+var buttonData3 = { name:"Yellow Key", image:button3, x:700, y:500, w:100, h:300 };
+buttons.push( buttonData3 );
+
+var button5 = new Image();
+button5.src ="assets/images/green_piano_key.png";
+var buttonData5 = { name:"Green Key", image:button5, x:600, y:500, w:100, h:300 };
+buttons.push( buttonData5 );
+
+var button6 = new Image();
+button6.src ="assets/images/lightgreen_piano_key.png";
+var buttonData6 = { name:"Light Green Key", image:button6, x:500, y:500, w:100, h:300 };
+buttons.push( buttonData6 );
+
+var button7 = new Image();
+button7.src ="assets/images/blue_piano_key.png";
+var buttonData7 = { name:"Blue Key", image:button7, x:400, y:500, w:100, h:300 };
+buttons.push( buttonData7 );
+
+var button8 = new Image();
+button8.src ="assets/images/purple_piano_key.png";
+var buttonData8 = { name:"Purple Key", image:button8, x:300, y:500, w:100, h:300 };
+buttons.push( buttonData8 );
+
+var button9 = new Image();
+button9.src ="assets/images/crowd.png";
+var buttonData9 = { image:button9, x:0, y:800, w:1800, h:100 };
+
+var button10 = new Image();
+button10.src ="assets/images/lights.jpeg";
+var buttonData10 = { image:button10, x:0, y:0, w:1400, h:1000 };
+
+function playSound(sound){
+  console.log(sound);
+  var audio = document.getElementById(sound);
+  console.log(audio);
+  if (readyToPlay(audio) === true) {
+    delay(audio);
+    audio.play();
+  }
+ }
+
+function readyToPlay(soundTime) {
+  console.log(soundTime);
+  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
+    return true
+  } else {
+  return false
+  }
+}
+
+function delay(sound) {
+  if (sound.duration > 0 && !sound.paused) {
+      sound.currentTime = 0;
+    }
+  } 
+
+function pause(sound) {
+  var audio = document.getElementById(sound);
+    audio.pause();
+  } 
+
+
+// called in animate function
+function render() 
+{ 
+  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+  {
+
+    layer2Context.drawImage( button10, 0, 0, 1400, 1000 );
+    layer2Context.drawImage( button9, 0, 800, 1800, 100 );
+    // mirror video
+    videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+    for ( var i = 0; i < buttons.length; i++ )
+      // this is where the buttons are being placed on one canvas.
+      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
+
+  }
+}
+
+var lastImageData;
+
+
+var triggers = []
+// check if white region from blend overlaps area of interest (e.g. buttons)
+function checkAreas() 
+{
+  // buttons are the images being touched
+  for (var b = 0; b < buttons.length; b++) 
+  {
+    // get the pixels in a note area from the blended image. blendContext is the black and white canvas, the one showing the white imagery for motion movement. 
+    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
+      
+    // calculate the average lightness of the blended data
+    var i = 0;
+    var sum = 0;
+    var countPixels = blendedData.data.length * 0.25;
+    while (i < countPixels) 
+    {
+      sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
+      ++i;
+    }
+    // calculate an average between of the color values of the note area [0-255]
+    var average = Math.round(sum / (3 * countPixels));
+    if (average > 50) // more than 20% movement detected
+    {
+      // triggers.push('trigger');
+      // for (var i = 0; i < triggers.length; i++){
+      //   if (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7 || i === 8 || i === 9 || i === 10 ){
+      //     pause(buttons[b].name)
+      //   } else {
+      playSound(buttons[b].name)
+      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
+      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+      //   }
+      // }
+    }
+  }
+}
+
+</script>
+<script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
+
+
