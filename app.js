@@ -30,7 +30,7 @@ app.use('/users', users);
 app.get('/drums', function(req, res) { res.render('drums')})
 app.get('/piano', function(req, res) { res.render('piano')})
 app.get('/bass', function(req, res) { res.render('bass')})
-app.get('/drums', function(req, res) { res.render('drums')})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

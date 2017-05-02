@@ -1,62 +1,214 @@
 <!doctype html>
 <html lang="en">
 <head>
- <title>AirC&#9889DC</title>
+  <title>AirC&#9889DC</title>
+  <!-- http://www.webrtc.org/ -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="/css/style.css">
 
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+  #monitor {
+      display: none;
+    }
 
- <style>
-   body
-   {
-     font-family: Monospace;
-     font-weight: bold;
-     background-color: #ccccff ;
-     margin: 5px;
-     overflow: scroll;
-   }
-   #videoCanvas {
-   transform: rotateY(180deg);
-   -webkit-transform:rotateY(180deg); /* Safari and Chrome */  
-   -moz-transform:rotateY(-180deg); /* Firefox */
-   }
- #layer2 {
-   transform: rotateY(180deg);
-   -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-   -moz-transform:rotateY(-180deg); /* Firefox */
-}
- </style>
+    #blendCanvas {
+      display: none;
+    }
+  </style>
+  
 </head>
-<!-- =======================CANVAS========================= -->
-<body>
- <!-- unmirrored raw webcam stream -->
- <video id="monitor" autoplay width: 520px; height: 440px; style="border:12px solid black;"></video><br>
-<canvas id="videoCanvas" width="520" height="440" style="border:10px solid black opacity:2"; ></canvas>
-<canvas id="layer2"  width="520" height="440" style="border:10px solid black";></canvas><br>
-<!-- ===================AUDIO=========================== -->
- <audio id="floor_tom">
-   <source src='audio/floor_tom.mp3'></source>
- </audio>
- <audio id="snare">
-   <source src='audio/snare.mp3'></source>
- </audio>
- <audio id="cowbell">
-   <source src='audio/cowbell.mp3'></source>
- </audio>
- <audio id="kick">
-   <source src='audio/kick.mp3'></source>
- </audio>
- <audio id="crash">
-   <source src='audio/crash.mp3'></source>
- </audio>
- <audio id="hi_hat">
-   <source src='audio/hi_hat.mp3'></source>
- </audio>
- <audio id="ride">
-   <source src='audio/ride.mp3'></source>
- </audio>
+<body id="drum">
 
-<script src="drum_app.js"></script>
-<script src="drum.js"></script>
+<table align="center">
+  
+  <tr>
+    
+    <th><button class="button" type="button" onclick="window.location.href='/piano.html'" autofocus>Air Piano</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set.html'" autofocus>Air DJ Set 1</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/dj_set#2.html'" autofocus>Air DJ Set 2</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/trump_mode.html'" autofocus>Trump Mode</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/the_team.html'" autofocus>About the Team</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/behind_the_scenes.html'" autofocus>Behind the Scenes</button></th>
+    <th><button class="button" type="button" onclick="window.location.href='/home.html'" autofocus>Home</button></th>
+  </tr>
+</table>
+
+<video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
+
+
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center">
+<!-- video canvas is the mirror -->
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+
+<!-- layer 2 has the button/instrument detections in them -->
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+</div>
+
+<!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
+<canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
+
+<div id="messageError"></div>
+<div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
+
+
+
+  <audio id="floor_tom">
+    <source src='audio/floor_tom.mp3'></source>
+  </audio>
+  <audio id="snare">
+    <source src='audio/snare.mp3'></source>
+  </audio>
+  <audio id="cowbell">
+    <source src='audio/cowbell.mp3'></source>
+  </audio>
+  <audio id="kick">
+    <source src='audio/kick.mp3'></source>
+  </audio>
+  <audio id="crash">
+    <source src='audio/crash.mp3'></source>
+  </audio>
+  <audio id="hi_hat">
+    <source src='audio/hi_hat.mp3'></source>
+  </audio>
+  <audio id="ride">
+    <source src='audio/ride.mp3'></source>
+  </audio>
+  <audio id="bass_drum">
+    <source src='audio/gong.mp3'></source>
+  </audio> 
+
+<!-- The code below contains a loop to draw the contents of the video tag
+   onto the canvas tag, enabling us to do cool things with the image. -->
+<!-- Based on http://www.adobe.com/devnet/html5/articles/javascript-motion-detection.html -->
+<script>
+
+      
+
+var buttons = [];
+
+var button1 = new Image();
+button1.src ="images/cowbell.jpeg";
+var buttonData1 = { name:"cowbell", image:button1, x:1200, y:150, w:75, h:75 };
+buttons.push( buttonData1 );
+
+var button2 = new Image();
+button2.src ="images/snare_drum.jpeg";
+var buttonData2 = { name:"snare", image:button2, x:1200, y:650, w:75, h:75 };
+buttons.push( buttonData2 );
+
+var button3 = new Image();
+button3.src ="images/ride_cymbol.jpeg";
+var buttonData3 = { name:"ride", image:button3, x:100, y:150, w:75, h:75 };
+buttons.push( buttonData3 );
+
+var button4 = new Image();
+button4.src ="images/floor_tom.jpeg";
+var buttonData4 = { name:"floor_tom", image:button4, x:100, y:650, w:75, h:75 };
+buttons.push( buttonData4 );
+
+var button5 = new Image();
+button5.src ="images/bass_drum.jpeg";
+var buttonData5 = { name:"bass_drum", image:button5, x:400, y:650, w:75, h:75 };
+buttons.push( buttonData5 );
+
+var button6 = new Image();
+button6.src ="images/hi_hat.jpeg";
+var buttonData6 = { name:"hi_hat", image:button6, x:800, y:150, w:75, h:75 };
+buttons.push( buttonData6 );
+
+var button7 = new Image();
+button7.src ="images/crash.jpg";
+var buttonData7 = { name:"crash", image:button7, x:400, y:150, w:75, h:75 };
+buttons.push( buttonData7 );
+
+var button8 = new Image();
+button8.src ="images/crowd.png";
+var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
+
+var button9 = new Image();
+button9.src ="images/lights.jpeg";
+var buttonData9 = { image:button9, x:0, y:0, w:1400, h:1000 };
+
+function playSound(sound){
+  console.log(sound);
+  var audio = document.getElementById(sound);
+  console.log(audio);
+  if (readyToPlay(audio) === true) {
+    delay(audio);
+    audio.play();
+  }
+ }
+
+function readyToPlay(soundTime) {
+  console.log(soundTime);
+  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
+    return true
+  } else {
+  return false
+  }
+}
+
+function delay(sound) {
+  if (sound.duration > 0 && !sound.paused) {
+      sound.currentTime = 0;
+    }
+  } 
+
+
+
+
+// called in animate function
+function render() 
+{ 
+  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+  {
+
+    layer2Context.drawImage( button9, 0, 0, 1400, 1000 );
+    layer2Context.drawImage( button8, 0, 800, 1800, 100 );
+    // mirror video
+    videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+    for ( var i = 0; i < buttons.length; i++ )
+      // this is where the buttons are being placed on one canvas.
+      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
+
+  }
+}
+
+
+// check if white region from blend overlaps area of interest (e.g. buttons)
+function checkAreas() 
+{
+  // buttons are the images being touched
+  for (var b = 0; b < buttons.length; b++) 
+  {
+    // get the pixels in a note area from the blended image. blendContext is the black and white canvas, the one showing the white imagery for motion movement. 
+    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
+      
+    // calculate the average lightness of the blended data
+    var i = 0;
+    var sum = 0;
+    var countPixels = blendedData.data.length * 0.25;
+    while (i < countPixels) 
+    {
+      sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
+      ++i;
+    }
+    // calculate an average between of the color values of the note area [0-255]
+    var average = Math.round(sum / (3 * countPixels));
+    if (average > 50) // more than 20% movement detected
+    {
+
+      playSound(buttons[b].name)
+      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
+      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+    }
+  }
+}
+
+</script>
+
+<script type="text/javascript" src="javascripts/music_app.js"></script>
 </body>
 </html>
+
