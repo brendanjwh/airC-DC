@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <title>AirC&#9889DC</title>
+
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+ <style>
+   body
+   {
+     font-family: Monospace;
+     font-weight: bold;
+     background-color: #ccccff ;
+     margin: 5px;
+     overflow: scroll;
+   }
+   #videoCanvas {
+   transform: rotateY(180deg);
+   -webkit-transform:rotateY(180deg); /* Safari and Chrome */  
+   -moz-transform:rotateY(-180deg); /* Firefox */
+   }
+ #layer2 {
+   transform: rotateY(180deg);
+   -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+   -moz-transform:rotateY(-180deg); /* Firefox */
+}
+ </style>
+</head>
+<!-- =======================CANVAS========================= -->
+<body>
+ <!-- unmirrored raw webcam stream -->
+ <video id="monitor" autoplay width: 520px; height: 440px; style="border:12px solid black;"></video><br>
+<canvas id="videoCanvas" width="520" height="440" style="border:10px solid black opacity:2"; ></canvas>
+<canvas id="layer2"  width="520" height="440" style="border:10px solid black";></canvas><br>
+<!-- ===================AUDIO=========================== -->
+ <audio id="floor_tom">
+   <source src='audio/floor_tom.mp3'></source>
+ </audio>
+ <audio id="snare">
+   <source src='audio/snare.mp3'></source>
+ </audio>
+ <audio id="cowbell">
+   <source src='audio/cowbell.mp3'></source>
+ </audio>
+ <audio id="kick">
+   <source src='audio/kick.mp3'></source>
+ </audio>
+ <audio id="crash">
+   <source src='audio/crash.mp3'></source>
+ </audio>
+ <audio id="hi_hat">
+   <source src='audio/hi_hat.mp3'></source>
+ </audio>
+ <audio id="ride">
+   <source src='audio/ride.mp3'></source>
+ </audio>
+
+<script src="drum_app.js"></script>
+<script src="drum.js"></script>
+</body>
+</html>
