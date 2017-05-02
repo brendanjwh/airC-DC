@@ -128,9 +128,6 @@ var button8 = new Image();
 button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
 
-var button9 = new Image();
-button9.src ="images/lights.jpeg";
-var buttonData9 = { image:button9, x:0, y:0, w:1400, h:1000 };
 
 function playSound(sound){
   console.log(sound);
@@ -166,7 +163,6 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
 
-    layer2Context.drawImage( button9, 0, 0, 1400, 1000 );
     layer2Context.drawImage( button8, 0, 800, 1800, 100 );
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
