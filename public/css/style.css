@@ -188,6 +188,10 @@ table {
   /*transform: translateY(4px);*/
 }
 
+#team {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
 #music {
   cursor: url("/images/yellowbolt.png"), default;
   position: relative;
