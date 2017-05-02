@@ -5,19 +5,41 @@ var buttons = [];
 
 var button1 = new Image();
 button1.src ="images/cowbell.jpeg";
-var buttonData1 = { name:"strum", image:button1, x:80, y:305, w:70, h:70, class:"strum" };
+var buttonData1 = { name:"strum", image:button1, x:0, y:350, w:90, h:90, class:"strum" };
 buttons.push( buttonData1 );
 
 
 var button2 = new Image();
 button2.src ="images/cowbell.jpeg";
-var buttonData2 = { name:"E", image:button2, x:339, y:100, w:30, h:30 };
+var buttonData2 = { name:"G", image:button2, x:460, y:0, w:50, h:40 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
 button3.src ="images/cowbell.jpeg";
-var buttonData3 = { name:"G", image:button2, x:270, y:150, w:30, h:30 };
+var buttonData3 = { name:"A", image:button2, x:370, y:70, w:45, h:45 };
 buttons.push( buttonData3 );
+
+var button4 = new Image();
+button4.src ="images/cowbell.jpeg";
+var buttonData4 = { name:"B", image:button2, x:290, y:130, w:45, h:45 };
+buttons.push( buttonData4 );
+
+var button5 = new Image();
+button5.src ="images/cowbell.jpeg";
+var buttonData5 = { name:"D", image:button2, x:210, y:190, w:45, h:45 };
+buttons.push( buttonData5 );
+
+var button6 = new Image();
+button6.src ="images/cowbell.jpeg";
+var buttonData6 = { name:"E_hi", image:button2, x:120, y:255, w:45, h:45 };
+buttons.push( buttonData6 );
+
+notes = ["A", "B", "D", "E", "E_hi", "G"];
+sounds = [];
+
+for (var i =0; i < notes.length; i++) {
+  sounds.push( document.getElementById(notes[i]));
+}
 
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
@@ -28,12 +50,22 @@ function isStrumming(buttonName) {
 
 function playSound(sound){
   var audio = document.getElementById(sound);
-  console.log(sound);
-  if (readyToPlay(audio) === true) {
+  if (readyToPlay(audio)) {
     delay(audio);
+    stopNote(sounds);
+    console.log(audio); 
     audio.play();
-    console.log(audio.id);
   }
+ }
+
+
+ function stopNote(sounds) {
+    for (var i =0; i < sounds.length; i++) {
+      if (sounds[i].currentTime > 0) {
+        sounds[i].pause();
+        sounds[i].currentTime = 0;
+      }
+    }
  }
 
 function readyToPlay(soundTime) {
