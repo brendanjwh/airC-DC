@@ -7,10 +7,6 @@ html {
   src: url("/images/squealer.ttf") format('truetype');
 }
 
-@font-face {
-  font-family: "Xerox";
-  src: url("/images/Xerox.ttf") format('truetype');
-}
 
 body {
   background-color: white; 
