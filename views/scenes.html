@@ -108,18 +108,7 @@ button2.src ="images/ghost.jpeg";
 var buttonData2 = { name:"You went through a ghost! =O", image:button2, x:50, y:300, w:50, h:50 };
 buttons.push( buttonData2 );
 
-var button3 = new Image();
-button3.src ="images/scary_lady.jpeg";
-var buttonData3 = { name:"I SEE YOU.....", image:button3, x:10, y:10, w:1, h:1 };
-buttons.push( buttonData3 );
 
-var button4 = new Image();
-button4.src ="images/scary_lady.jpeg";
-var buttonData4 = { name:"I SEE YOU.....", image:button4, x:0, y:0, w:500, h:500 };
-
-var button5 = new Image();
-button5.src ="images/yellowbolt.png";
-var buttonData5 = { name:"I SEE YOU.....", image:button5, x:0, y:0, w:500, h:500 };
 
 
 
@@ -142,7 +131,7 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
     // mirror video
-    layer2Context.drawImage( button5, 0, 0, 500, 500 );
+    
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
@@ -231,11 +220,11 @@ function checkAreas()
       
       messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
 
-      if (messageArea.innerHTML === '<font size="+10" color="I" see="" you.....=""><b>Button I SEE YOU..... fucked.</b></font>') {
-        console.log("POOP");
-        layer2Context.drawImage( button4, 0, 0, 500, 500 );
-        window.setTimeout(animate(), 5000);
-      }
+      // if (messageArea.innerHTML === '<font size="+10" color="I" see="" you.....=""><b>Button I SEE YOU..... fucked.</b></font>') {
+      //   console.log("POOP");
+      //   layer2Context.drawImage( button4, 0, 0, 500, 500 );
+      //   window.setTimeout(animate(), 5000);
+      // }
 
 
     }
