@@ -51,22 +51,22 @@
 <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
 
 <audio id="trumpbuildwall">
-    <source src='/assets/audio/trumpbuildwall.mp3'></source>
+    <source src='audio/trumpbuildwall.mp3'></source>
   </audio>
   <audio id="trumpchina">
-    <source src='/assets/audio/trumpchina.mp3'></source>
+    <source src='audio/trumpchina.mp3'></source>
   </audio>
   <audio id="trumpjail">
-    <source src='/assets/audio/trumpjail.mp3'></source>
+    <source src='audio/trumpjail.mp3'></source>
   </audio>
   <audio id="trumprich">
-    <source src='/assets/audio/trumprich.mp3'></source>
+    <source src='audio/trumprich.mp3'></source>
   </audio>
   <audio id="trumpstopit">
-    <source src='/assets/audio/trumpstopit.mp3'></source>
+    <source src='audio/trumpstopit.mp3'></source>
   </audio>
   <audio id="trumpwrong">
-    <source src='/assets/audio/trumpwrong.mp3'></source>
+    <source src='audio/trumpwrong.mp3'></source>
   </audio>
 
 <script>      
@@ -74,7 +74,7 @@
 var buttons = [];
 
 var button1 = new Image();
-button1.src ="assets/images/trump1.jpeg";
+button1.src ="images/trump5.jpeg";
 var buttonData1 = { name:"trump", image:button1, x:500, y:500, w:1, h:1 };
 buttons.push( buttonData1 );
 
@@ -156,7 +156,7 @@ function checkAreas()
 
 
       var button2 = new Image();
-      button2.src ="assets/images/trump5.jpeg";
+      button2.src ="images/trump5.jpeg";
       var buttonData2 = { name:"trump", image:button2, x:random_position, y:random_position2, w:175, h:175 };
       buttons.push( buttonData2 );
 
@@ -191,7 +191,7 @@ function checkAreas()
 
 
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
-      messageArea.innerHTML = "<font size='+10' color='black'><b>Name: " + buttons[b].name + " email:" + buttons[b].email + " Github:" + buttons[b].github + ".</b></font>";
+      messageArea.innerHTML = "<font size='+10' color='black'><b> 'Hit Trump for a comment! .</b></font>";
     }
   }
 }

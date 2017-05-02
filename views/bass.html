@@ -1,54 +1,27 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>airC/DC</title>
+  <title>AirC&#9889DC</title>
+  <!-- http://www.webrtc.org/ -->
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
    <link rel="stylesheet" type="text/css" href="/css/style.css">
 
-  <style>
-    body 
-    {
-      font-family: Monospace;
-      font-weight: bold;
-      background-color: #ccccff;
-      margin: 5px;
-      overflow: scroll;
+ <style>
+  #monitor {
+      display: none;
     }
-    #videoCanvas {
-    transform: rotateY(180deg);
-    -webkit-transform:rotateY(180deg); /* Safari and Chrome */  
-    -moz-transform:rotateY(-180deg); /* Firefox */
+
+    #blendCanvas {
+      display: none;
     }
-    /*both of these css functions are mirroring the video and buttons to make it more friendly to use to try and hit buttons.*/
-  #layer2 {
-    transform: rotateY(180deg);
-    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-    -moz-transform:rotateY(-180deg); /* Firefox */
-}
   </style>
 </head>
 
   <!-- ========VIDEO=====&&====CANVAS=========== -->
 
 <body>
-<video id="monitor" autoplay width: 520px; height: 440px; style="border:12px solid black;"></video><br>
-<canvas id="videoCanvas" width="520" height="440" style="border:10px solid black opacity:2"; ></canvas>
-<canvas id="layer2"  width="520" height="440" style="border:10px solid black";></canvas><br>
-
-<!-- ===================AUDIO========================= -->
-
-    
-  <audio class="bass" id="E">
-    <source src='audio/bass/E.mp3'></source>
-  </audio>
-  <audio class="bass" id="E_hi">
-    <source src='audio/bass/E_hi.mp3'></source>
-  </audio>
-  <audio class="bass" id="G">
-    <source src='audio/bass/G.mp3'></source>
-  </audio>
 
 <table align="center">
   <tr>
@@ -63,7 +36,39 @@
 
   </tr>
 </table>
+
+
+<video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
+
+
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center">
+<!-- video canvas is the mirror -->
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+
+<!-- layer 2 has the button/instrument detections in them -->
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+</div>
+
+<!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
+<canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
+
+<!-- ===================AUDIO========================= -->
+
+    
+  <audio class="bass" id="E">
+    <source src='audio/bass/E.mp3'></source>
+  </audio>
+  <audio class="bass" id="E_hi">
+    <source src='audio/bass/E_hi.mp3'></source>
+  </audio>
+  <audio class="bass" id="G">
+    <source src='audio/bass/G.mp3'></source>
+  </audio>
+
+
 <div id="snapshot"></div>
+
+
 
 <script src="javascripts/bass_app.js"></script>
 <script src="javascripts/bass.js"></script>
