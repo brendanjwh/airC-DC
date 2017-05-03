@@ -38,26 +38,31 @@ function noStream(e)
 
 window.onload = function() { 
   // the webcam stream
-  var monitor = document.getElementById('monitor');
+  // var monitor = document.getElementById('monitor');
 
-  var videoCanvas = document.getElementById('videoCanvas');
-  var videoContext = videoCanvas.getContext('2d');
+  // var videoCanvas = document.getElementById('videoCanvas');
+  // var videoContext = videoCanvas.getContext('2d');
 
-  var greenCanvas = document.getElementById('layer2');
-  var greenCanvasContext = greenCanvas.getContext('2d');
+  // var greenCanvas = document.getElementById('blendCanvas');
+  // var greenCanvasContext = greenCanvas.getContext('2d');
 
 
 /* ======================================================== 
                     global variable setup
    ======================================================== */
-var video = monitor;
+   var video = document.getElementById( 'monitor' );
+// var video = monitor;
 var videoCanvas = document.getElementById( 'videoCanvas' );
 var videoContext = videoCanvas.getContext( '2d' );
 
 var layer2Canvas = document.getElementById( 'layer2' );
 var layer2Context = layer2Canvas.getContext( '2d' );
 // //GREEN SOCK CAM
-var blendContext = videoContext;  
+var blendCanvas  = document.getElementById( "blendCanvas" );
+var blendContext = blendCanvas.getContext('2d');
+// var greenCanvas = document.getElementById('blendCanvas');
+//   var greenCanvasContext = greenCanvas.getContext('2d');
+//  var blendContext = videoContext;  
 // background color if no video present
 videoContext.fillStyle = '#005337';
 videoContext.fillRect( 0, 0, videoCanvas.width, videoCanvas.height );       
