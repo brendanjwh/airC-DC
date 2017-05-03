@@ -41,9 +41,9 @@
 <!-- video canvas is the mirror -->
 <canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
-<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+<canvas id="highlights" width="1400px" height="900px" style="opacity: 0.8; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 <!-- layer 2 has the button/instrument detections in them -->
-<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+<canvas id="layer2" width="1400px" height="900px" style="opacity: 0.7; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 </div>
 
 <!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
@@ -167,7 +167,7 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
     highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
-    
+    highlightscontext.drawImage( button9, 0, 650, 2200, 250 );
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     for ( var i = 0; i < buttons.length; i++ )
@@ -208,7 +208,7 @@ function checkAreas()
       //   if (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7 || i === 8 || i === 9 || i === 10 ){
       //     pause(buttons[b].name)
       //   } else {
-      highlightscontext.drawImage( highlight1.image, buttons[b].x, buttons[b].y, highlight1.w, highlight1.h );  
+      highlightscontext.drawImage( highlight1.image, (buttons[b].x - 10), (buttons[b].y +10), highlight1.w, highlight1.h );  
       playSound(buttons[b].name)
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
       // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
