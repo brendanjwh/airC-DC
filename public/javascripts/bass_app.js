@@ -171,7 +171,7 @@ function checkAreas()
 
     // calculate an average between of the color values of the note area [0-255]
     var average = Math.round(sum / (3 * countPixels));
-
+//debugger
     if (average > 50) // more than 20% movement detected
     {
       if (isStrumming(buttons[b].name) === true)
