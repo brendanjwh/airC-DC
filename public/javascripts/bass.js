@@ -40,21 +40,27 @@ for (var i =0; i < notes.length; i++) {
   sounds.push( document.getElementById(notes[i]));
 }
 
-theUrl = "https://7972657d7c.dataplicity.io/17/on"
+var urlHash = {
+  "A": "https://7972657d7c.dataplicity.io/6/blink", 
+  "B": "https://7972657d7c.dataplicity.io/17/blink", 
+  "D": "https://7972657d7c.dataplicity.io/11/blink", 
+  "strum": "https://7972657d7c.dataplicity.io/5/blink", 
+  "E_hi": "https://7972657d7c.dataplicity.io/22/blink", 
+  "G": "https://7972657d7c.dataplicity.io/9/blink"
+} 
 
 
+  // "https://7972657d7c.dataplicity.io/10/", "https://7972657d7c.dataplicity.io/27/"}
+// theUrl = "https://7972657d7c.dataplicity.io/17/"
 
-function play() {
-
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    console.log("here");
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
 }
-
-// function httpGet(theUrl)
-// {
-//     var xmlHttp = new XMLHttpRequest();
-//     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-//     xmlHttp.send( null );
-//     return xmlHttp.responseText;
-// }
 
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
@@ -63,17 +69,19 @@ function isStrumming(buttonName) {
   return false;
 }
 
+// timeOutFunction();
 function playSound(sound){
-
   var audio = document.getElementById(sound);
   if (readyToPlay(audio)) {
     delay(audio);
     stopNote(sounds);
     audio.play();
-
-    //httpGet(theUrl);
+    //httpGet(urlHash[sound]);
+    //mediaPlay(audio);
   }
  }
+
+   httpGet(urlHash[sound]);
 
  function stopNote(sounds) {
     for (var i =0; i < sounds.length; i++) {
@@ -85,15 +93,18 @@ function playSound(sound){
  }
 
 function readyToPlay(soundTime) {
+  console.log(soundTime.currentTime);
   if ((soundTime.currentTime > .20) || (soundTime.currentTime === 0)) {
+    console.log("true");
     return true
   } else {
+    console.log("false");
   return false
   }
 }
 
 function delay(sound) {
-  if (sound.duration > 0 && !sound.paused) {
+  if (sound.duration > .2 && !sound.paused) {
       sound.currentTime = 0;
     }
   } 
