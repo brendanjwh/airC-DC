@@ -44,13 +44,18 @@ for (var i =0; i < notes.length; i++) {
 theUrl = "https://7972657d7c.dataplicity.io/17/on"
 
 
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+
+function play() {
+
 }
+
+// function httpGet(theUrl)
+// {
+//     var xmlHttp = new XMLHttpRequest();
+//     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+//     xmlHttp.send( null );
+//     return xmlHttp.responseText;
+// }
 
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
