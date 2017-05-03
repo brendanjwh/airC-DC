@@ -107,7 +107,7 @@ body {
 @keyframes spin { 50% { -webkit-transform: rotate(40deg); transform:rotate(20deg); } }
 
 #Alex {
-  top: 84%;
+  top: 26%;
   left: 35.5%;
   width: 120px;
   height: 120px;
@@ -121,7 +121,7 @@ body {
 }
 
 #Brendan {
-  top: 101%;
+  top: 30.5%;
   left: 65.5%;
   width: 120px;
   height: 120px;
@@ -135,7 +135,7 @@ body {
 }
 
 #Chris {
-  top: 158%;
+  top: 48%;
   left: 17.5%;
   width: 120px;
   height: 120px;
@@ -148,7 +148,7 @@ body {
 }
 
 #Derek {
-  top: 141%;
+  top: 42%;
   left: 45.7%;
   width: 120px;
   height: 120px;
@@ -172,6 +172,10 @@ h3 {
   left: 80.5%;
   font-size: 1em;
   color: black;
+}
+
+h4 {
+  font-size: 2em;
 }
 
 
