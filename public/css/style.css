@@ -7,7 +7,6 @@ html {
   src: url("/images/squealer.ttf") format('truetype');
 }
 
-
 body {
   margin: auto;
   margin: 5px;
@@ -71,8 +70,6 @@ body {
   -moz-transform:rotateY(-180deg); /* Firefox */
 }
 
-*/
-}
 
 #blendCanvas {
   position: relative;
@@ -105,7 +102,7 @@ body {
 @keyframes spin { 50% { -webkit-transform: rotate(40deg); transform:rotate(20deg); } }
 
 #Alex {
-  top: 78%;
+  top: 98%;
   left: 35.5%;
   width: 120px;
   height: 120px;
@@ -114,7 +111,7 @@ body {
 
 
 #Brendan {
-  top: 90%;
+  top: 119%;
   left: 65.5%;
   width: 120px;
   height: 120px;
@@ -123,7 +120,7 @@ body {
 
 
 #Chris {
-  top: 145%;
+  top: 177%;
   left: 17.5%;
   width: 120px;
   height: 120px;
@@ -132,7 +129,7 @@ body {
 
 
 #Derek {
-  top: 133%;
+  top: 157%;
   left: 45.7%;
   width: 120px;
   height: 120px;
@@ -145,16 +142,17 @@ h1 {
   color: black;
 }
 
-h3 {
+h4 {
   top: 0;
   position: relative;
   left: 80.5%;
-  font-size: 1em;
+  font-size: 1.5em;
   color: black;
 }
 
 table {
   padding: 2%;
+  cursor: url("/images/yellowbolt.png"), default;
 }
 
 .header {
@@ -181,11 +179,12 @@ table {
   border-radius:3px;
   color: black;
   font-size: 16px;
-  width: 12em;
+  width: 8em;
   padding: 3px 3px;
   box-sizing: border-box;
   /*font-size: .9em;*/
   font-family: "squealer";
+  cursor: url("/images/yellowbolt.png"), default;
 }
 
 .button:hover {

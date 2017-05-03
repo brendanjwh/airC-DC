@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>AirC&#9889DC</title>
+  <!-- http://www.webrtc.org/ -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+<style>
+  #monitor {
+      display: none;
+    }
+
+    #blendCanvas {
+      display: none;
+    }
+  </style>
+  
+</head>
+<body id="drum">
+
+<table align="center">
+  <tr>
+    <th><a href="/dj1"><button class="button">Air DJ Set 1</button></a></th>
+    <th><a href="/dj2"><button class="button">Air DJ Set2</button></a></th>
+    <th><a href="/piano"><button class="button">Air Piano</button></a></th>
+    <th><a href="/trump"><button class="button">Trump Mode</button></a></th>
+    <th><a href="/team"><button class="button">About the Team</button></a></th>
+    <th><a href="/scenes"><button class="button">Behind the Scenes</button></a></th>
+    <th><a href="/bass"><button class="button">Air Bass</button></a></th>
+    <th><a href="/"><button class="button">Home</button></a></th>
+
+
+  </tr>
+</table>
+
+<video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
+
+
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center">
+<!-- video canvas is the mirror -->
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+
+<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1; z-index: 1;" align="center"></canvas>
+
+<!-- layer 2 has the button/instrument detections in them -->
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1;" align="center"></canvas>
+</div>
+
+<!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
+<canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
+
+<div id="messageError"></div>
+<!-- <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div> -->
+
+
+
+  <audio id="gong">
+    <source src='audio/gong.mp3'></source>
+  </audio>
+  
+
+<!-- The code below contains a loop to draw the contents of the video tag
+   onto the canvas tag, enabling us to do cool things with the image. -->
+<!-- Based on http://www.adobe.com/devnet/html5/articles/javascript-motion-detection.html -->
+<script>
+
+var highlights = document.getElementById( 'highlights' );
+var highlightscontext = highlights.getContext( '2d' );  
+      
+
+var buttons = [];
+
+var button1 = new Image();
+button1.src ="images/gong.png";
+var buttonData1 = { name:"gong", image:button1, x:550, y:100, w:400, h:400 };
+buttons.push( buttonData1 );
+
+
+var button8 = new Image();
+button8.src ="images/crowd.png";
+var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
+
+
+function playSound(sound){
+  console.log(sound);
+  var audio = document.getElementById(sound);
+  console.log(audio);
+  if (readyToPlay(audio) === true) {
+    delay(audio);
+    audio.play();
+  }
+ }
+
+function readyToPlay(soundTime) {
+  console.log(soundTime);
+  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
+    return true
+  } else {
+  return false
+  }
+}
+
+function delay(sound) {
+  if (sound.duration > 0 && !sound.paused) {
+      sound.currentTime = 0;
+    }
+  } 
+
+
+
+
+// called in animate function
+function render() 
+{ 
+  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+  {
+
+    
+    // mirror video
+    videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlightscontext.drawImage( button8, 0, 650, 2200, 250 );
+    for ( var i = 0; i < buttons.length; i++ )
+      // this is where the buttons are being placed on one canvas.
+      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
+
+  }
+}
+
+
+// check if white region from blend overlaps area of interest (e.g. buttons)
+function checkAreas() 
+{
+  // buttons are the images being touched
+  for (var b = 0; b < buttons.length; b++) 
+  {
+    // get the pixels in a note area from the blended image. blendContext is the black and white canvas, the one showing the white imagery for motion movement. 
+    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
+      
+    // calculate the average lightness of the blended data
+    var i = 0;
+    var sum = 0;
+    var countPixels = blendedData.data.length * 0.25;
+    while (i < countPixels) 
+    {
+      sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
+      ++i;
+    }
+    // calculate an average between of the color values of the note area [0-255]
+    var average = Math.round(sum / (3 * countPixels));
+    if (average > 50) // more than 20% movement detected
+    {
+
+      highlightscontext.drawImage( buttons[b].image, (buttons[b].x - 175), (buttons[b].y - 125), 700, 700 );
+      playSound(buttons[b].name)
+
+
+      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
+      // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+    }
+  }
+}
+
+</script>
+
+<script type="text/javascript" src="javascripts/music_app.js"></script>
+</body>
+</html>
+
