@@ -42,6 +42,7 @@
 <!-- video canvas is the mirror -->
 <canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
+<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 <!-- layer 2 has the button/instrument detections in them -->
 <canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 </div>
@@ -77,7 +78,15 @@
   </audio> 
 
 
-<script>     
+<script>   
+
+var highlights = document.getElementById( 'highlights' );
+var highlightscontext = highlights.getContext( '2d' );  
+
+var highlight = new Image();
+highlight.src ="/images/song.png";
+var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:200, h:400 };
+
 
 var buttons = [];
 
@@ -158,8 +167,8 @@ function render()
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-
-    layer2Context.drawImage( button9, 0, 800, 1800, 100 );
+    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     for ( var i = 0; i < buttons.length; i++ )
@@ -193,13 +202,14 @@ function checkAreas()
     }
     // calculate an average between of the color values of the note area [0-255]
     var average = Math.round(sum / (3 * countPixels));
-    if (average > 50) // more than 20% movement detected
+    if (average > 25) // more than 20% movement detected
     {
       // triggers.push('trigger');
       // for (var i = 0; i < triggers.length; i++){
       //   if (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7 || i === 8 || i === 9 || i === 10 ){
       //     pause(buttons[b].name)
       //   } else {
+      highlightscontext.drawImage( highlight1.image, buttons[b].x, buttons[b].y, highlight1.w, highlight1.h );  
       playSound(buttons[b].name)
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
       // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
@@ -208,6 +218,13 @@ function checkAreas()
     }
   }
 }
+
+// var highlights = document.getElementById( 'highlights' );
+// var highlightscontext = layer2Canvas.getContext( '2d' );  
+
+// var highlight = new Image();
+// button1.src ="/images/song.png";
+// var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:200, h:400 };
 
 </script>
 <script type="text/javascript" src="javascripts/music_app.js"></script>

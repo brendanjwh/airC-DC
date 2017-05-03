@@ -48,6 +48,15 @@ body {
   -moz-transform:rotateY(-180deg); /* Firefox */
 }
 
+#highlights {
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */  
+  -moz-transform:rotateY(-180deg); /* Firefox */
+  z-index: 0.5;
+  opacity: 0.3
+
+}
+
 /*both of these css functions are mirroring the video and buttons to make it more friendly to use to try and hit buttons.*/
   
 #layer2 {
