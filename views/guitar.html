@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>airC/DC</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <style>
+    body 
+    {
+      font-family: Monospace;
+      font-weight: bold;
+      background-color: #ccccff;
+      margin: 5px;
+      overflow: scroll;
+    }
+    #videoCanvas {
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */  
+    -moz-transform:rotateY(-180deg); /* Firefox */
+    }
+    /*both of these css functions are mirroring the video and buttons to make it more friendly to use to try and hit buttons.*/
+  #layer2 {
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(-180deg); /* Firefox */
+}
+  </style>
+</head>
+
+  <!-- ========VIDEO=====&&====CANVAS=========== -->
+
+<body>
+<video id="monitor" autoplay width: 520px; height: 440px; style="border:12px solid black;"></video><br>
+<canvas id="videoCanvas" width="520" height="440" style="border:10px solid black opacity:2"; ></canvas>
+<canvas id="layer2"  width="520" height="440" style="border:10px solid black";></canvas><br>
+
+<!-- ===================AUDIO========================= -->
+
+  <audio class="guitar" id="strum">
+    <source src='audio/bass/E.mp3'></source>
+  </audio>
+  <audio class="guitar" id="E_hi">
+    <source src='audio/bass/E_hi.mp3'></source>
+  </audio>
+  <audio class="guitar" id="G">
+    <source src='audio/bass/G.mp3'></source>
+  </audio>
+  <audio class="guitar" id="A">
+    <source src='audio/bass/A.mp3'></source>
+  </audio>
+  <audio class="guitar" id="G">
+    <source src='audio/bass/G.mp3'></source>
+  </audio>
+  <audio class="guitar" id="B">
+    <source src='audio/bass/B.mp3'></source>
+  </audio>
+  <audio class="guitar" id="D">
+    <source src='audio/bass/D.mp3'></source>
+  </audio>
+
+<script src="guitar_app.js"></script>
+<script src="guitar.js"></script>
+
+<h2>A little of what's happening behind the scenes to make all this happen!</h2>
+<h3 id="h3"><a href="index.html">Home</a>
+Switch Instruments if you'd like!
+<ul>
+    <li><a href="drum_set.html">Air Drums</a></li>
+    <li><a href="piano.html">Air Piano</a></li>
+    <li><a href="the_team.html">Check out the Team behind this project!</a></li>
+    <li><a href="behind_the_scenes.html">Check out behind the scenes here!</a></li>
+  </ul>
+<div id="snapshot"></div>
+</body>
+</html>
