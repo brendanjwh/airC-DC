@@ -155,6 +155,7 @@ h4 {
 
 table {
   padding: 2%;
+  cursor: url("/images/yellowbolt.png"), default;
 }
 
 .header {
@@ -186,7 +187,6 @@ table {
   box-sizing: border-box;
   /*font-size: .9em;*/
   font-family: "squealer";
-  cursor: url("/images/yellowbolt.png"), default;
 }
 
 .button:hover {
