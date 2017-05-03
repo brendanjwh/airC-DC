@@ -70,7 +70,6 @@ function playSound(sound){
   if (readyToPlay(audio)) {
     delay(audio);
     stopNote(sounds);
-    console.log(audio); 
     audio.play();
 
     //httpGet(theUrl);
@@ -88,7 +87,6 @@ function playSound(sound){
  }
 
 function readyToPlay(soundTime) {
-  console.log(soundTime.currentTime);
   if ((soundTime.currentTime > .20) || (soundTime.currentTime === 0)) {
     return true
   } else {

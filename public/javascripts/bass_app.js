@@ -190,14 +190,11 @@ function checkNeck( ) {
 
 //-----------------------------------------------------------
 
-//  if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
   var openE = document.getElementById("strum");
-  //debugger
     for (var b = 0; b < buttons.length; b++) 
   {
-  //console.log(blendContext)
     var blendedData = blendContext.getImageData( buttons[0].x, buttons[0].y, buttons[0].w, buttons[0].h );
     if (checkStrum(blendedData) === true) {
       openE.pause();
@@ -207,39 +204,6 @@ function checkAreas()
     else {
       return
     }
-//     // calculate an average between of the color values of the note area [0-255]
-//     var average = Math.round(sum / (3 * countPixels));
-//     if (average > 50) // more than 20% movement detected
-//     {
-//       if (isStrumming(buttons[b].name) === true)
-//       {
-//         sum = 0;
-//         for (var b = buttons.length-1; b > -1; b--)
-//         {
-//             var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
-//             var i = 0;
-//             var countPixels = blendedData.data.length * 0.25;
-//           while (i < countPixels) 
-//           {
-//             sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
-//             ++i;
-//           }
-//           average = Math.round(sum / (3 * countPixels));
-// // debugger
-//           if (average > 50 && b != 0) 
-//           { 
-//             console.log()
-//             console.log(buttons[b].name);
-//             playSound(buttons[b].name)
-//             break
-//           }
-//           if (b === 0 ) {
-//             playSound("E")
-//             break
-//           }
-//         }   
-//       }
-//     }
   }
   }
 }
