@@ -3,8 +3,8 @@
    ======================================================== */
 
 var button7 = new Image();
-button7.src ="/images/verticalguitar.png";
-var buttonData7 = { name:"guitar", image:button7, x:100, y:700, w:960, h:260 };
+button7.src ="/images/superguitar.png";
+var buttonData7 = { name:"guitar", image:button7, x:100, y:750, w:1060, h:-500 };
 
 
 var buttons = [];
