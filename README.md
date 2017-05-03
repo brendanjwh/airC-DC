@@ -16,10 +16,10 @@ To play guitar and bass- it is best to use lime green to trigger the notes and s
 
 ## Authors
 
-**Brendan White: [Named Link](https://github.com/brendanjwh)**
-**Chris Frazzini: [Named Link](https://github.com/CFrazz25)**
-**Alex Origitano: [Named Link](https://github.com/Alexthegurl)**
-**Derek Georgevich: [Named Link](https://github.com/DGeorgevich)**
+- **Brendan White: [brendanjwk](https://github.com/brendanjwh)**
+- **Chris Frazzini: [CFrazz25](https://github.com/CFrazz25)**
+- **Alex Origitano: [Alexthegurl](https://github.com/Alexthegurl)**
+- **Derek Georgevich: [DGeorgevich](https://github.com/DGeorgevich)**
 
 ## License
 
