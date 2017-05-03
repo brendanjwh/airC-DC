@@ -99,7 +99,7 @@ buttons.push( buttonData1 );
 
 var button2 = new Image();
 button2.src ="images/snare_drum.png";
-var buttonData2 = { name:"snare", image:button2, x:1200, y:650, w:100, h:100 };
+var buttonData2 = { name:"snare", image:button2, x:1200, y:600, w:100, h:100 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
@@ -114,7 +114,7 @@ buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/bass_drum.png";
-var buttonData5 = { name:"bass_drum", image:button5, x:100, y:650, w:100, h:100 };
+var buttonData5 = { name:"bass_drum", image:button5, x:100, y:600, w:100, h:100 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
@@ -166,10 +166,11 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
 
-    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
-    highlightscontext.drawImage( button8, 0, 800, 1800, 100 );
+    
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlightscontext.drawImage( button8, 0, 650, 2200, 250 );
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
