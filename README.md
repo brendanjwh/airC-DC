@@ -4,7 +4,11 @@ Air guitar comes to life! Along with bass guitar, piano, drum set, gong, and a t
 
 ## Deployment
 
-We are deployed on Heroku! Just visit https://lit-mesa-76346.herokuapp.com/ to start playing. 
+We are deployed on Heroku! Just visit https://lit-mesa-76346.herokuapp.com/ to start playing.
+
+## Best Practices
+To play guitar and bass- it is best to use lime green to trigger the notes and strum. 
+- Three feet away from your laptop computer is the best distance in order to get the most out of the motion capture technology.
 
 ## Built With
 
