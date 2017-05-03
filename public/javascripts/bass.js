@@ -69,7 +69,7 @@ function playSound(sound){
  }
 
 function readyToPlay(soundTime) {
-  if ((soundTime.currentTime > .16) || (soundTime.currentTime === 0)) {
+  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
     return true
   } else {
   return false
