@@ -17,9 +17,10 @@
     }
   </style>
 </head>
-<body id="team">
+<body>
 <table align="center">
   <tr>
+
     <th><a class="button" href="/drums"><button>Air Drums</button></a></th>
     <th><a class="button" href="/piano"><button>Air Piano</button></a></th>
     <th><a class="button" href="/dj1"><button>Air DJ Set 1</button></a></th>
@@ -30,6 +31,7 @@
     <th><a class="button" href="/bass"><button>Air Bass</button></a></th>
     <th><a class="button" href="/gong"><button>Hit The Gong!!!</button></a></th>
     <th><a class="button" href="/"><button>Home</button></a></th>
+
 
 
   </tr>
@@ -53,7 +55,7 @@
 
 
 <div id="messageError"></div>
-<div id="messageArea" style="position: relative; top: 0px;" align="center"></div>
+<div id="messageArea" style="position: relative; top: 0px; font-family: 'Arial'" align="center"></div>
 
 
 
@@ -68,22 +70,26 @@ var buttons = [];
 
 var button1 = new Image();
 button1.src ="images/Chris.png";
-var buttonData1 = { name:"Chris Frazzini", email:"cfrazzin/@indiana.edu", github: "CFrazz25", image:button1, x:1100, y:350, w:175, h:175 };
+
+var buttonData1 = { name:"Chris Frazzini", email:"cfrazzin@indiana.edu", github: "https://github.com/CFrazz25", image:button1, x:1100, y:150, w:300, h:300 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
 button2.src ="images/Derek.png";
-var buttonData2 = { name:"Derek Georgevich", email:"dgeorgevich@gmail.com", github: "DGeorgevich", image:button2, x:750, y:150, w:175, h:175 };
+
+var buttonData2 = { name:"Derek Georgevich", email:"dgeorgevich@gmail.com", github: "https://github.com/DGeorgevich", image:button2, x:750, y:150, w:300, h:300 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
 button3.src ="images/Alex.png";
-var buttonData3 = { name:"Alex Origitano", email:"aorigitano@gmail.com", github:"Alexthegurl", image:button3, x:400, y:150, w:175, h:175 };
+
+var buttonData3 = { name:"Alex Origitano", email:"aorigitano@gmail.com", github:"https://github.com/Alexthegurl", image:button3, x:400, y:150, w:300, h:300 };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
 button4.src ="images/Brendan.png";
-var buttonData4 = { name:"Brendan White", email:"brendanjwh@gmail.com", github:"brendanjwh", image:button4, x:10, y:350, w:175, h:175 };
+
+var buttonData4 = { name:"Brendan White", email:"brendanjwh@gmail.com", github:"https://github.com/brendanjwh", image:button4, x:10, y:150, w:300, h:300 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
