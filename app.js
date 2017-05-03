@@ -14,7 +14,9 @@ var scenes = require('./routes/scenes');
 var bass = require('./routes/bass');
 var dj1 = require('./routes/dj1');
 var dj2 = require('./routes/dj2');
+var guitar = require('./routes/guitar');
 var gong = require('./routes/gong');
+
 
 var app = express();
 
@@ -43,6 +45,7 @@ app.get('/trump', function(req, res) { res.render('trump')})
 app.get('/dj1', function(req, res) { res.render('dj1')})
 app.get('/dj2', function(req, res) { res.render('dj2')})
 app.get('/scenes', function(req, res) { res.render('scenes')})
+app.get('/guitar', function(req, res) { res.render('guitar')})
 app.get('/gong', function(req, res) { res.render('gong')})
 
 
