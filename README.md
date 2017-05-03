@@ -20,7 +20,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* Thank you to Dev Bootcamp, who taught us everything we know about being a developer. And thank you to our family and friends, for allowing us to fall off the face of the earth during our time at DBC to pursue new careers in web development. Thank you for your support!
 
