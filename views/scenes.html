@@ -25,19 +25,19 @@
   </tr>
 </table>
 
-<video id="monitor" autoplay  width: 500; height: 500; style="margin: auto;"></video><br>
+<video id="monitor" autoplay  width: 500; height: 500; style="margin: auto; top: 150px;"></video><br>
 
 <!-- video canvas is the mirror -->
-  <canvas id="videoCanvas" width="500px" height="500px"; style="margin: auto;"></canvas><br>
+  <canvas id="videoCanvas" width="500px" height="500px"; style="margin: auto; top: 132px;"></canvas><br>
 
   <!-- layer 2 has the button/instrument detections in them -->
-  <canvas id="layer2" width="500px" height="500px" style="margin: auto;"></canvas><br>
+  <canvas id="layer2" width="500px" height="500px" style="margin: auto; top: 150px;"></canvas><br>
 
 
 <!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
-<canvas id="blendCanvas" width="500px" height="500px" style="margin: auto;"></canvas>
+<canvas id="blendCanvas" width="500px" height="500px" style="margin: auto; position: relative; bottom: 375px; left: 550px;" ></canvas>
 <div id="messageError"></div>
-<div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div>
+<div id="messageArea" style="position: absolute; left: 25px; top: 150px;" align="center"></div>
 
 <!-- this script is what launches the audio and webcam -->
 <script>
@@ -101,12 +101,12 @@ var buttons = [];
 
 var button1 = new Image();
 button1.src ="images/nvr-motion detection.jpg";
-var buttonData1 = { name:"MOTION DETECTED!!! =)", image:button1, x:150, y:100, w:50, h:50 };
+var buttonData1 = { name:"MOTION DETECTED!!! =)", image:button1, x:150, y:100, w:75, h:75 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
 button2.src ="images/ghost.jpeg";
-var buttonData2 = { name:"You went through a ghost! =O", image:button2, x:50, y:300, w:50, h:50 };
+var buttonData2 = { name:"You went through a ghost! =O", image:button2, x:375, y:300, w:75, h:75 };
 buttons.push( buttonData2 );
 
 
@@ -126,6 +126,7 @@ function animate()
   // timeOut = setTimeout(animate(), 1000/60); //this sets how many pics/second are taken. wasn't working properly also, with the first parameter, was messing stuff up giving errors in console. Not necessary to have, was fun feature to add. 
 }
 
+
 // called in animate function
 function render() 
 { 
@@ -136,7 +137,9 @@ function render()
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
-      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
+
+      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );
+        
       
 
   }
@@ -219,7 +222,7 @@ function checkAreas()
       
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
       
-      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " has been triggered.</b></font>";
 
       // if (messageArea.innerHTML === '<font size="+10" color="I" see="" you.....=""><b>Button I SEE YOU..... fucked.</b></font>') {
       //   console.log("POOP");
