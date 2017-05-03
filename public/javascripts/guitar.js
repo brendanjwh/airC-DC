@@ -4,13 +4,13 @@
 
 var button7 = new Image();
 button7.src ="/images/guitar.png";
-var buttonData7 = { name:"guitar", image:button7, x:50, y:700, w:160, h:160 };
+var buttonData7 = { name:"guitar", image:button7, x:100, y:700, w:960, h:260 };
 
 
 var buttons = [];
 
 var button1 = new Image();
-button1.src ="/images/guitar.png";
+button1.src ="/images/pick.png";
 var buttonData1 = { name:"strum", image:button1, x:50, y:700, w:160, h:160, class:"strum" };
 buttons.push( buttonData1 );
 
@@ -27,7 +27,7 @@ buttons.push( buttonData3 );
 
 var button4 = new Image();
 button4.src ="/images/b.png";
-var buttonData4 = { name:"B", image:button4, x:800, y:300, w:100, h:100, class:"strum" };
+var buttonData4 = { name:"B", image:button4, x:800, y:300, w:100, h:100, class:"B" };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
