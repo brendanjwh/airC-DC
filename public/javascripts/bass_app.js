@@ -151,57 +151,60 @@ function threshold(value) // refers to the change in pixels, we are setting the 
 {
   return (value > 0x15) ? 0xFF : 0;
 }
+//-----------------------------------------------------------
 
-//  if white region from blend overlaps area of interest (e.g. buttons)
-function checkAreas() 
-{
-  for (var b = 0; b < buttons.length; b++) 
-  {
-    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
-      
-    // calculate the average lightness of the blended data
-    var i = 0;
-    var sum = 0;
-    var countPixels = blendedData.data.length * 0.25;
+function checkStrum(blendedData) {
+  var i = 0
+  var sum = 0;
+  var countPixels = blendedData.data.length * 0.25;
+  //debugger
     while (i < countPixels) 
     {
+      //console.log(i);
       sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
       ++i;
     }
+    // console.log(sum);
+  var average = Math.round(sum / (3 * countPixels));
+  //debugger
+  //console.log(average);
+  if (average > 70) {
+    return true;
+  }
+  else return false;
+}
 
-    // calculate an average between of the color values of the note area [0-255]
-    var average = Math.round(sum / (3 * countPixels));
-
-    if (average > 50) // more than 20% movement detected
-    {
-      if (isStrumming(buttons[b].name) === true)
-      {
-        sum = 0;
-        for (var b = buttons.length-1; b > -1; b--)
-        {
-            var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
-            var i = 0;
-            var countPixels = blendedData.data.length * 0.25;
-          while (i < countPixels) 
-          {
-            sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
-            ++i;
-          }
-          average = Math.round(sum / (3 * countPixels));
-          if (average > 50 && b != 0) 
-          { 
-            console.log(buttons[b].name);
-            playSound(buttons[b].name)
-            break
-          }
-          if (b === 0 ) {
-            playSound("E")
-            break
-          }
-        }   
-      }
-    }
+function checkNeck( ) {
+  var open = 0
+  for (var b = buttons.length-1; b > 0; b--) {
+    var blendedData = blendContext.getImageData( buttons[b].x, buttons[b].y, buttons[b].w, buttons[b].h );
+    if (checkStrum(blendedData) === true) {
+      playSound(buttons[b].name)
+      open = 1;
+     } 
+     if (open === 0 && b === 1) {
+      playSound(buttons[0].name)
+     }
   }
 }
+
+//-----------------------------------------------------------
+
+function checkAreas() 
+{
+  var openE = document.getElementById("strum");
+    for (var b = 0; b < buttons.length; b++) 
+  {
+    var blendedData = blendContext.getImageData( buttons[0].x, buttons[0].y, buttons[0].w, buttons[0].h );
+    if (checkStrum(blendedData) === true) {
+      openE.pause();
+      openE.currentTime =0;
+      checkNeck();
+    }
+    else {
+      return
+    }
+  }
+  }
 }
 
