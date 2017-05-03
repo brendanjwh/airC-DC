@@ -145,11 +145,11 @@ h1 {
   color: black;
 }
 
-h3 {
+h4 {
   top: 0;
   position: relative;
   left: 80.5%;
-  font-size: 1em;
+  font-size: 1.5em;
   color: black;
 }
 
@@ -186,6 +186,7 @@ table {
   box-sizing: border-box;
   /*font-size: .9em;*/
   font-family: "squealer";
+  cursor: url("/images/yellowbolt.png"), default;
 }
 
 .button:hover {
