@@ -34,7 +34,7 @@ button6.src ="images/cowbell.jpeg";
 var buttonData6 = { name:"E_hi", image:button2, x:120, y:255, w:45, h:45 };
 buttons.push( buttonData6 );
 
-notes = ["A", "B", "D", "E", "E_hi", "G"];
+notes = ["A", "B", "D", "strum", "E_hi", "G"];
 sounds = [];
 
 for (var i =0; i < notes.length; i++) {
@@ -65,6 +65,7 @@ function isStrumming(buttonName) {
 }
 
 function playSound(sound){
+
   var audio = document.getElementById(sound);
   if (readyToPlay(audio)) {
     delay(audio);
@@ -72,8 +73,7 @@ function playSound(sound){
     console.log(audio); 
     audio.play();
 
-    httpGet(theUrl);
-
+    //httpGet(theUrl);
   }
  }
 
@@ -88,7 +88,8 @@ function playSound(sound){
  }
 
 function readyToPlay(soundTime) {
-  if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
+  console.log(soundTime.currentTime);
+  if ((soundTime.currentTime > .20) || (soundTime.currentTime === 0)) {
     return true
   } else {
   return false
