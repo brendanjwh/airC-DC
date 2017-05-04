@@ -48,9 +48,12 @@
 <!-- video canvas is the mirror -->
 <canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
+<canvas id="highlights" width="1400px" height="900px" style="opacity: 0.8; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+
+<canvas id="highlights2" width="1400px" height="900px" style="transform: rotateY(180deg); -webkit-transform:rotateY(180deg); -moz-transform:rotateY(-180deg); opacity: 0.5; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+
 <!-- layer 2 has the button/instrument detections in them -->
-<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
-</div>
+<canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1;" align="center"></canvas>
 
 <!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
 <canvas id="blendCanvas" width="1400px" height="900px" align="center"></canvas>
@@ -60,33 +63,43 @@
 <!-- <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div> -->
 
 
-<script>       
+<script>    
+
+var highlights = document.getElementById( 'highlights' );
+var highlightscontext = highlights.getContext( '2d' ); 
+
+var highlights2 = document.getElementById( 'highlights2' );
+var highlights2context = highlights2.getContext( '2d' );   
+
+var highlight = new Image();
+highlight.src ="/images/SquareBlue.png";
+var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:150, h:150 };
 
 var buttons = [];
 
 var button1 = new Image();
-button1.src ="images/bass_amp.jpeg";
-var buttonData1 = { name:"Bass", image:button1, x:1300, y:700, w:75, h:75 };
+button1.src ="images/bass_amp.png";
+var buttonData1 = { name:"Bass", image:button1, x:1200, y:650, w:100, h:100 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
-button2.src ="images/drums.jpeg";
-var buttonData2 = { name:"Drums", image:button2, x:1100, y:150, w:75, h:75 };
+button2.src ="images/drums.png";
+var buttonData2 = { name:"Drums", image:button2, x:1200, y:300, w:100, h:100 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
-button3.src ="images/guitar.jpeg";
-var buttonData3 = { name:"Guitar", image:button3, x:900, y:150, w:75, h:75  };
+button3.src ="images/guitar.png";
+var buttonData3 = { name:"Guitar", image:button3, x:800, y:50, w:100, h:100  };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
-button4.src ="images/piano.jpeg";
-var buttonData4 = { name:"Piano", image:button4, x:700, y:150, w:75, h:75 };
+button4.src ="images/piano.png";
+var buttonData4 = { name:"Piano", image:button4, x:50, y:300, w:100, h:100 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
-button5.src ="images/violin.jpeg";
-var buttonData5 = { name:"Violin", image:button5, x:500, y:150, w:75, h:75 };
+button5.src ="images/violin.png";
+var buttonData5 = { name:"Violin", image:button5, x:500, y:50, w:100, h:100 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
@@ -98,18 +111,18 @@ button7.src ="images/lights.jpeg";
 var buttonData7 = { image:button7, x:0, y:0, w:1400, h:1000 };
 
 var button8 = new Image();
-button8.src ="images/mic.jpeg";
-var buttonData8 = { name:"Forrest Voice", image:button8, x:300, y:150, w:75, h:75 };
+button8.src ="images/mic.png";
+var buttonData8 = { name:"Forrest Voice", image:button8, x:1200, y:50, w:100, h:100 };
 buttons.push( buttonData8 );
 
 var button9 = new Image();
 button9.src ="images/song.png";
-var buttonData9 = { name:"Song", image:button9, x:100, y:700, w:75, h:75 };
+var buttonData9 = { name:"Song", image:button9, x:50, y:650, w:100, h:100 };
 buttons.push( buttonData9 );
 
 var button10 = new Image();
 button10.src ="images/yellowbolt.png";
-var buttonData10 = { name:"Thunderstorm", image:button10, x:300, y:450, w:75, h:75 };
+var buttonData10 = { name:"Thunderstorm", image:button10, x:50, y:50, w:100, h:100 };
 buttons.push( buttonData10 );
 
 var trancebass_audio = new Audio("audio/electropad.mp3");
@@ -121,37 +134,96 @@ var forrestgump_audio = new Audio("audio/forrestgumpchoc.mp3");
 var thunderstruck_audio = new Audio("audio/ThunderStruck.mp3");
 var thunderstorm_audio = new Audio("audio/thunderstorm.mp3");
 
-
+audio = [trancebass_audio,drummix_audio, guitar_audio, piano_audio, violin_audio, forrestgump_audio, thunderstruck_audio, thunderstorm_audio ]
 // called in animate function
 function render() 
 { 
-  if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
-  {
-    layer2Context.drawImage( button7, 0, 0, 1400, 1000 );
-    layer2Context.drawImage( button6, 0, 800, 1800, 100 );
-    // mirror video
+// mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
-    for ( var i = 0; i < buttons.length; i++ )
+    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlights2context.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlightscontext.drawImage( button7, 0, 0, 1400, 1000 );
+    highlightscontext.drawImage( button6, 0, 700, 1400, 200 );
+    for ( var x = 0; x < audio.length; x++ ) {
+      if (audio[0].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData1.x -25, buttonData1.y -25, 150, 150 );
+      }
+       if (audio[1].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData2.x -25, buttonData2.y -25, 150, 150 );
+      }
+       if (audio[2].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData3.x -25, buttonData3.y -25, 150, 150 );
+      }
+       if (audio[3].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData4.x -25, buttonData4.y -25, 150, 150 );
+      }
+       if (audio[4].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData5.x -25, buttonData5.y -25, 150, 150 );
+      }
+       if (audio[5].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData8.x -25, buttonData8.y -25, 150, 150 );
+      }
+       if (audio[6].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData9.x -25, buttonData9.y -25, 150, 150 );
+      }
+       if (audio[7].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData10.x - 25, buttonData10.y - 25, 150, 150 );
+      }
+    }
+
+    for ( var i = 0; i < buttons.length; i++ ) {
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h ); 
+    } 
 
   }
 
+
+
+
+function FunctionSuppressor(args) {
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
 }
 
+FunctionSuppressor.prototype.fire = function(audio) {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    this.lastFiredAt = Date.now();
+    if (audio.paused === true){
+      audio.play()
+    } else if (audio.paused === false) {
+      audio.pause()
+  }
+    
+  }
+}
+
+FunctionSuppressor.prototype.loopfire = function(audio) {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    this.lastFiredAt = Date.now();
+    if (audio.paused === true && audio.loop === false){
+      audio.play()
+      audio.loop = true
+    } else if (audio.paused === false && audio.loop === true) {
+      audio.pause()
+      audio.loop = false
+  }
+    
+  }
+}
+
+var trancebasssuppressor = new FunctionSuppressor({threshold: 1000 })
+var drummixsuppressor = new FunctionSuppressor({threshold: 1000 })
+var guitarsuppressor = new FunctionSuppressor({threshold: 1000 })
+var pianosuppressor = new FunctionSuppressor({threshold: 1000 })
+var violinsuppressor = new FunctionSuppressor({threshold: 1000 })
+var forrestgumpsuppressor = new FunctionSuppressor({threshold: 1000 })
+var thunderstrucksuppressor = new FunctionSuppressor({threshold: 1000 })
+var thunderstormsuppressor = new FunctionSuppressor({threshold: 1000 })
 
 
 
-var drummix_triggers = []
-var trancebass_triggers = []
-var guitar_triggers = []
-var marshmello_triggers = []
-var piano_triggers = []
-var violin_triggers = []
-var forrestgump_triggers = []
-var thunderstorm_triggers = []
-
-
+var triggers = []
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -173,136 +245,35 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     { 
+      triggers.push(1)
+      if (triggers.length <= 8){
+        return
+      }
       
-      // anytime a button is triggered, it's triggered multiple times on accident. So, we want to focus only on the last button. We iterate through all the buttons triggered. We don't do anything with them except for the last button triggered. We start that button off playing. If we trigger some buttons again, we loop through to see if any buttons are currently playing. If they are, just pause that button and end the loop. Then, if we trigger some buttons again, we loop through to see if all of the buttons are paused. If they are, we will trigger the last triggered button to start playing.
       if (buttons[b].name === 'Drums') {
-        drummix_triggers.push(drummix_audio)
-        for (i = 0; i < drummix_triggers.length; i++) {
-          if (i === 0 ){
-            drummix_triggers[i].pause();
-          }
-          else if (drummix_triggers[i].paused === false) {
-            drummix_triggers[i].pause();
-          }
-          else if (drummix_triggers[i].paused === true){
-            drummix_triggers[drummix_triggers.length - 1].currentTime = (drummix_triggers[i].currentTime);
-            drummix_triggers[drummix_triggers.length - 1].play();
-          }
-        }
+        trancebasssuppressor.loopfire(drummix_audio)
       } else if (buttons[b].name === 'Bass') {
-        trancebass_triggers.push(trancebass_audio)
-        for (i = 0; i < trancebass_triggers.length; i++) {
-          if (i === 0 ){
-            trancebass_triggers[i].pause();
-          }
-          else if (trancebass_triggers[i].paused === false) {
-            trancebass_triggers[i].pause();
-          }
-          else if (trancebass_triggers[i].paused === true){
-            trancebass_triggers[trancebass_triggers.length - 1].currentTime = (trancebass_triggers[i].currentTime);
-            trancebass_triggers[trancebass_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Guitar') {
-        guitar_triggers.push(guitar_audio)
-        for (i = 0; i < guitar_triggers.length; i++) {
-          if (i === 0 ){
-            guitar_triggers[i].pause();
-          }
-          else if (guitar_triggers[i].loop === true && guitar_triggers[i].paused === false) {
-            guitar_triggers[i].loop = false
-            guitar_triggers[i].pause();
-          }
-          else if (guitar_triggers[i].paused === true){
-            guitar_triggers[guitar_triggers.length - 1].currentTime = (guitar_triggers[i].currentTime);
-            guitar_triggers[piano_triggers.length - 1].loop = true
-            guitar_triggers[guitar_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Song') {
-        marshmello_triggers.push(marshmello_audio)
-        for (i = 0; i < marshmello_triggers.length; i++) {
-          if (i === 0 ){
-            marshmello_triggers[i].pause();
-          }
-          else if (marshmello_triggers[i].paused === false) {
-            marshmello_triggers[i].pause();
-          }
-          else if (marshmello_triggers[i].paused === true){
-            marshmello_triggers[marshmello_triggers.length - 1].currentTime = (marshmello_triggers[i].currentTime);
-            marshmello_triggers[marshmello_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Piano') {
-        piano_triggers.push(piano_audio)
-        for (i = 0; i < piano_triggers.length; i++) {
-          if (i === 0 ){
-            piano_triggers[i].pause();
-          }
-          else if (piano_triggers[i].loop === true && piano_triggers[i].paused === false) {
-            piano_triggers[i].loop = false
-            piano_triggers[i].pause();
-          }
-          else if (piano_triggers[i].paused === true){
-            piano_triggers[piano_triggers.length - 1].currentTime = (piano_triggers[i].currentTime);
-            piano_triggers[piano_triggers.length - 1].loop = true
-            piano_triggers[piano_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Violin') {
-        violin_triggers.push(violin_audio)
-        for (i = 0; i < violin_triggers.length; i++) {
-          if (i === 0 ){
-            violin_triggers[i].pause();
-          }
-          else if (violin_triggers[i].loop === true && violin_triggers[i].paused === false) {
-            violin_triggers[i].loop = false
-            violin_triggers[i].pause();
-          }
-          else if (violin_triggers[i].paused === true){
-            violin_triggers[violin_triggers.length - 1].currentTime = (violin_triggers[i].currentTime);
-            beer_triggers[beer_triggers.length - 1].loop = true
-            violin_triggers[violin_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Forrest Voice') {
-        forrestgump_triggers.push(forrestgump_audio)
-        for (i = 0; i < forrestgump_triggers.length; i++) {
-          if (i === 0 ){
-            forrestgump_triggers[i].pause();
-          }
-          else if (forrestgump_triggers[i].paused === false) {
-            forrestgump_triggers[i].pause();
-          }
-          else if (forrestgump_triggers[i].paused === true){
-            forrestgump_triggers[forrestgump_triggers.length - 1].currentTime = (forrestgump_triggers[i].currentTime);
-            forrestgump_triggers[forrestgump_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Thunderstorm') {
-        thunderstorm_triggers.push(thunderstorm_audio)
-        for (i = 0; i < thunderstorm_triggers.length; i++) {
-          if (i === 0 ){
-            thunderstorm_triggers[i].pause();
-          }
-          else if (thunderstorm_triggers[i].paused === false) {
-            thunderstorm_triggers[i].pause();
-          }
-          else if (thunderstorm_triggers[i].paused === true){
-            thunderstorm_triggers[thunderstorm_triggers.length - 1].currentTime = (thunderstorm_triggers[i].currentTime);
-            thunderstorm_triggers[thunderstorm_triggers.length - 1].play();
-          }
-        }
-    }
-       
+        drummixsuppressor.loopfire(trancebass_audio)
+      }
+      else if (buttons[b].name === 'Guitar') {
+        guitarsuppressor.loopfire(guitar_audio)
+      }
+      else if (buttons[b].name === 'Song') {
+        thunderstrucksuppressor.fire(thunderstruck_audio)
+      }
+      else if (buttons[b].name === 'Piano') {
+        pianosuppressor.loopfire(piano_audio)
+      }
+      else if (buttons[b].name === 'Violin') {
+        violinsuppressor.loopfire(violin_audio)
+      }
+      else if (buttons[b].name === 'Forrest Voice') {
+        forrestgumpsuppressor.fire(forrestgump_audio)
+      }
+      else if (buttons[b].name === 'Thunderstorm') {
+        thunderstormsuppressor.fire(thunderstorm_audio)
+      }
       
-      // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
 
       }
     }

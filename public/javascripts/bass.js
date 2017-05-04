@@ -4,7 +4,7 @@
 
 var button7 = new Image();
 button7.src ="/images/basstwo.png";
-var buttonData7 = { name:"guitar", image:button7, x:100, y:750, w:1060, h:-500 };
+var buttonData7 = { name:"guitar", image:button7, x:-300, y:-150, w:1900, h:1200 };
 
 var buttons = [];
 
@@ -37,6 +37,38 @@ var button6 = new Image();
 button6.src ="images/e.png";
 var buttonData6 = { name:"E_hi", image:button6, x:360, y:590, w:100, h:100 };
 buttons.push( buttonData6 );
+
+var showbuttons = [];
+
+var button1 = new Image();
+button1.src ="images/pick.png";
+var buttonData1 = { name:"strum", image:button1, x:850, y:700, w:160, h:160, class:"strum" };
+showbuttons.push( buttonData1 );
+
+var button2 = new Image();
+button2.src ="images/g.png";
+var buttonData2 = { name:"G", image:button2, x:220, y:30, w:100, h:100 };
+showbuttons.push( buttonData2 );
+
+var button3 = new Image();
+button3.src ="images/a.png";
+var buttonData3 = { name:"A", image:button3, x:400, y:160, w:100, h:100 };
+showbuttons.push( buttonData3 );
+
+var button4 = new Image();
+button4.src ="images/b.png";
+var buttonData4 = { name:"B", image:button4, x:600, y:300, w:100, h:100 };
+showbuttons.push( buttonData4 );
+
+var button5 = new Image();
+button5.src ="images/d.png";
+var buttonData5 = { name:"D", image:button5, x:790, y:450, w:100, h:100 };
+showbuttons.push( buttonData5 );
+
+var button6 = new Image();
+button6.src ="images/e.png";
+var buttonData6 = { name:"E_hi", image:button6, x:1040, y:590, w:100, h:100 };
+showbuttons.push( buttonData6 );
 
 notes = ["A", "B", "D", "strum", "E_hi", "G"];
 sounds = [];
