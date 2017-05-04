@@ -48,7 +48,7 @@
 <!-- video canvas is the mirror -->
 <canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
-<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+<canvas id="highlights" width="1400px" height="900px" style="opacity: 0.7;margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
 <!-- layer 2 has the button/instrument detections in them -->
 <canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1;" align="center"></canvas>
@@ -59,9 +59,6 @@
 
 
 <div id="messageError"></div>
-<!-- <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div> -->
-
-
 
 
 
@@ -78,7 +75,7 @@ var buttons = [];
 
 var button1 = new Image();
 button1.src ="images/bass_amp.png";
-var buttonData1 = { name:"Bass", image:button1, x:1200, y:6500, w:100, h:100 };
+var buttonData1 = { name:"Bass", image:button1, x:1200, y:650, w:100, h:100 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
@@ -88,17 +85,17 @@ buttons.push( buttonData2 );
 
 var button3 = new Image();
 button3.src ="images/guitar.png";
-var buttonData3 = { name:"Guitar", image:button3, x:1000, y:50, w:100, h:100  };
+var buttonData3 = { name:"Guitar", image:button3, x:800, y:50, w:100, h:100  };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
 button4.src ="images/piano.png";
-var buttonData4 = { name:"Piano", image:button4, x:650, y:50, w:100, h:100 };
+var buttonData4 = { name:"Piano", image:button4, x:50, y:300, w:100, h:100 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/violin.png";
-var buttonData5 = { name:"Violin", image:button5, x:300, y:50, w:100, h:100 };
+var buttonData5 = { name:"Violin", image:button5, x:500, y:50, w:100, h:100 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
@@ -111,17 +108,17 @@ var buttonData7 = { image:button7, x:0, y:0, w:1400, h:1000 };
 
 var button8 = new Image();
 button8.src ="images/mic.png";
-var buttonData8 = { name:"Beer Voice", image:button8, x:300, y:0, w:100, h:100 };
+var buttonData8 = { name:"Beer Voice", image:button8, x:1200, y:50, w:100, h:100 };
 buttons.push( buttonData8 );
 
 var button9 = new Image();
 button9.src ="images/song.png";
-var buttonData9 = { name:"Song", image:button9, x:0, y:700, w:100, h:100 };
+var buttonData9 = { name:"Song", image:button9, x:50, y:650, w:100, h:100 };
 buttons.push( buttonData9 );
 
 var button10 = new Image();
 button10.src ="images/mic.png";
-var buttonData10 = { name:"Darth Vader", image:button10, x:0, y:400, w:100, h:100 };
+var buttonData10 = { name:"Darth Vader", image:button10, x:50, y:50, w:100, h:100 };
 buttons.push( buttonData10 );
 
 var trancebass_audio = new Audio("audio/electrobass.mp3");
@@ -140,7 +137,7 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
     highlightscontext.drawImage( button7, 0, 0, 1400, 1000 );
-    highlightscontext.drawImage( button6, 0, 800, 1800, 100 );
+    highlightscontext.drawImage( button6, 0, 700, 1400, 200 );
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     for ( var i = 0; i < buttons.length; i++ )
@@ -152,6 +149,7 @@ function render()
 }
 
 
+var drummix = 0
 var drummix_triggers = []
 var trancebass_triggers = []
 var guitar_triggers = []
@@ -162,9 +160,40 @@ var beer_triggers = []
 var darthvader_triggers = []
 
 
+function FunctionSuppressor(args) {
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    console.log("hey")
+    this.lastFiredAt = Date.now();
+    if (drummix_audio.paused === true){
+    drummix_audio.play()
+    } else if (drummix_audio.paused === false) {
+    drummix_audio.pause()
+  }
+    
+  }
+}
+
+var suppressor = new FunctionSuppressor({threshold: 1000 })
+
+
+
 // check if white region from blend overlaps area of interest (e.g. buttons)
+var lasttrigger = new Date()
+lasttrigger = lasttrigger.getTime()
+
 function checkAreas() 
 {
+  
+  
+
+  
+
+
   // buttons are the images being touched
   for (var b = 0; b < buttons.length; b++) 
   {
@@ -183,140 +212,151 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     { 
+ 
+      suppressor.fire()
+        }
+    }
+     }
       
       // anytime a button is triggered, it's triggered multiple times on accident. So, we want to focus only on the last button. We iterate through all the buttons triggered. We don't do anything with them except for the last button triggered. We start that button off playing. If we trigger some buttons again, we loop through to see if any buttons are currently playing. If they are, just pause that button and end the loop. Then, if we trigger some buttons again, we loop through to see if all of the buttons are paused. If they are, we will trigger the last triggered button to start playing.
-      if (buttons[b].name === 'Drums') {
-        drummix_triggers.push(drummix_audio)
-        for (i = 0; i < drummix_triggers.length; i++) {
-          if (i === 0 ){
-            drummix_triggers[i].pause();
-          }
-          else if (drummix_triggers[i].paused === false) {
-            drummix_triggers[i].pause();
-          }
-          else if (drummix_triggers[i].paused === true){
-            drummix_triggers[drummix_triggers.length - 1].currentTime = (drummix_triggers[i].currentTime);
-            drummix_triggers[drummix_triggers.length - 1].play();
-          }
-        }
-      } else if (buttons[b].name === 'Bass') {
-        trancebass_triggers.push(trancebass_audio)
-        for (i = 0; i < trancebass_triggers.length; i++) {
-          if (i === 0 ){
-            trancebass_triggers[i].pause();
-          }
-          else if (trancebass_triggers[i].paused === false) {
-            trancebass_triggers[i].pause();
-          }
-          else if (trancebass_triggers[i].paused === true){
-            trancebass_triggers[trancebass_triggers.length - 1].currentTime = (trancebass_triggers[i].currentTime);
-            trancebass_triggers[trancebass_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Guitar') {
-        guitar_triggers.push(guitar_audio)
-        for (i = 0; i < guitar_triggers.length; i++) {
-          if (i === 0 ){
-            guitar_triggers[i].pause();
-          }
-          else if (guitar_triggers[i].loop === true && guitar_triggers[i].paused === false) {
-            guitar_triggers[i].loop = false
-            guitar_triggers[i].pause();
-          }
-          else if (guitar_triggers[i].paused === true){
-            guitar_triggers[guitar_triggers.length - 1].currentTime = (guitar_triggers[i].currentTime);
-            guitar_triggers[piano_triggers.length - 1].loop = true
-            guitar_triggers[guitar_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Song') {
-        marshmello_triggers.push(marshmello_audio)
-        for (i = 0; i < marshmello_triggers.length; i++) {
-          if (i === 0 ){
-            marshmello_triggers[i].pause();
-          }
-          else if (marshmello_triggers[i].paused === false) {
-            marshmello_triggers[i].pause();
-          }
-          else if (marshmello_triggers[i].paused === true){
-            marshmello_triggers[marshmello_triggers.length - 1].currentTime = (marshmello_triggers[i].currentTime);
-            marshmello_triggers[marshmello_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Piano') {
-        piano_triggers.push(piano_audio)
-        for (i = 0; i < piano_triggers.length; i++) {
-          if (i === 0 ){
-            piano_triggers[i].pause();
-          }
-          else if (piano_triggers[i].loop === true && piano_triggers[i].paused === false) {
-            piano_triggers[i].loop = false
-            piano_triggers[i].pause();
-          }
-          else if (piano_triggers[i].paused === true){
-            piano_triggers[piano_triggers.length - 1].currentTime = (piano_triggers[i].currentTime);
-            piano_triggers[piano_triggers.length - 1].loop = true
-            piano_triggers[piano_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Violin') {
-        violin_triggers.push(violin_audio)
-        for (i = 0; i < violin_triggers.length; i++) {
-          if (i === 0 ){
-            violin_triggers[i].pause();
-          }
-          else if (violin_triggers[i].loop === true && violin_triggers[i].paused === false) {
-            violin_triggers[i].loop = false
-            violin_triggers[i].pause();
-          }
-          else if (violin_triggers[i].paused === true){
-            violin_triggers[violin_triggers.length - 1].currentTime = (violin_triggers[i].currentTime);
-            beer_triggers[beer_triggers.length - 1].loop = true
-            violin_triggers[violin_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Beer Voice') {
-        beer_triggers.push(beer_audio)
-        for (i = 0; i < beer_triggers.length; i++) {
-          if (i === 0 ){
-            beer_triggers[i].pause();
-          }
-          else if (beer_triggers[i].paused === false) {
-            beer_triggers[i].pause();
-          }
-          else if (beer_triggers[i].paused === true){
-            beer_triggers[beer_triggers.length - 1].currentTime = (beer_triggers[i].currentTime);
-            beer_triggers[beer_triggers.length - 1].play();
-          }
-        }
-    }
-    else if (buttons[b].name === 'Darth Vader') {
-        darthvader_triggers.push(darthvader_audio)
-        for (i = 0; i < darthvader_triggers.length; i++) {
-          if (i === 0 ){
-            darthvader_triggers[i].pause();
-          }
-          else if (darthvader_triggers[i].paused === false) {
-            darthvader_triggers[i].pause();
-          }
-          else if (darthvader_triggers[i].paused === true){
-            darthvader_triggers[darthvader_triggers.length - 1].currentTime = (darthvader_triggers[i].currentTime);
-            darthvader_triggers[darthvader_triggers.length - 1].play();
-          }
-        }
-    }
+      
+
+    
+      // if (buttons[b].name === 'Drums') {
+      // //   drummix += 1
+      //    drummix_triggers.push(drummix_audio)
+      //   for (i = 0; i < drummix_triggers.length; i++) {
+      //     if (i === 0 || i === 1 ){
+      //       drummix_triggers[i].pause();
+      //     }
+      //     else if (drummix_triggers[i].paused === false) {
+      //       drummix_triggers[i].pause();
+      //     }
+      //     else if (drummix_triggers[i].paused === true){
+      //       drummix_triggers[drummix_triggers.length - 1].currentTime = (drummix_triggers[i].currentTime);
+      //       drummix_triggers[drummix_triggers.length - 1].play();
+      //     }
+      //   }
+      // }
+    //   } else if (buttons[b].name === 'Bass') {
+    //     trancebass_triggers.push(trancebass_audio)
+    //     for (i = 0; i < trancebass_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         trancebass_triggers[i].pause();
+    //       }
+    //       else if (trancebass_triggers[i].paused === false) {
+    //         trancebass_triggers[i].pause();
+    //       }
+    //       else if (trancebass_triggers[i].paused === true){
+    //         trancebass_triggers[trancebass_triggers.length - 1].currentTime = (trancebass_triggers[i].currentTime);
+    //         trancebass_triggers[trancebass_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Guitar') {
+    //     guitar_triggers.push(guitar_audio)
+    //     for (i = 0; i < guitar_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         guitar_triggers[i].pause();
+    //       }
+    //       else if (guitar_triggers[i].loop === true && guitar_triggers[i].paused === false) {
+    //         guitar_triggers[i].loop = false
+    //         guitar_triggers[i].pause();
+    //       }
+    //       else if (guitar_triggers[i].paused === true){
+    //         guitar_triggers[guitar_triggers.length - 1].currentTime = (guitar_triggers[i].currentTime);
+    //         guitar_triggers[piano_triggers.length - 1].loop = true
+    //         guitar_triggers[guitar_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Song') {
+    //     marshmello_triggers.push(marshmello_audio)
+    //     for (i = 0; i < marshmello_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         marshmello_triggers[i].pause();
+    //       }
+    //       else if (marshmello_triggers[i].paused === false) {
+    //         marshmello_triggers[i].pause();
+    //       }
+    //       else if (marshmello_triggers[i].paused === true){
+    //         marshmello_triggers[marshmello_triggers.length - 1].currentTime = (marshmello_triggers[i].currentTime);
+    //         marshmello_triggers[marshmello_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Piano') {
+    //     piano_triggers.push(piano_audio)
+    //     for (i = 0; i < piano_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         piano_triggers[i].pause();
+    //       }
+    //       else if (piano_triggers[i].loop === true && piano_triggers[i].paused === false) {
+    //         piano_triggers[i].loop = false
+    //         piano_triggers[i].pause();
+    //       }
+    //       else if (piano_triggers[i].paused === true){
+    //         piano_triggers[piano_triggers.length - 1].currentTime = (piano_triggers[i].currentTime);
+    //         piano_triggers[piano_triggers.length - 1].loop = true
+    //         piano_triggers[piano_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Violin') {
+    //     violin_triggers.push(violin_audio)
+    //     for (i = 0; i < violin_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2){
+    //         violin_triggers[i].pause();
+    //       }
+    //       else if (violin_triggers[i].loop === true && violin_triggers[i].paused === false) {
+    //         violin_triggers[i].loop = false
+    //         violin_triggers[i].pause();
+    //       }
+    //       else if (violin_triggers[i].paused === true){
+    //         violin_triggers[violin_triggers.length - 1].currentTime = (violin_triggers[i].currentTime);
+    //         beer_triggers[beer_triggers.length - 1].loop = true
+    //         violin_triggers[violin_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Beer Voice') {
+    //     beer_triggers.push(beer_audio)
+    //     for (i = 0; i < beer_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         beer_triggers[i].pause();
+    //       }
+    //       else if (beer_triggers[i].paused === false) {
+    //         beer_triggers[i].pause();
+    //       }
+    //       else if (beer_triggers[i].paused === true){
+    //         beer_triggers[beer_triggers.length - 1].currentTime = (beer_triggers[i].currentTime);
+    //         beer_triggers[beer_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
+    // else if (buttons[b].name === 'Darth Vader') {
+    //     darthvader_triggers.push(darthvader_audio)
+    //     for (i = 0; i < darthvader_triggers.length; i++) {
+    //       if (i === 0 || i === 1 || i === 2 ){
+    //         darthvader_triggers[i].pause();
+    //       }
+    //       else if (darthvader_triggers[i].paused === false) {
+    //         darthvader_triggers[i].pause();
+    //       }
+    //       else if (darthvader_triggers[i].paused === true){
+    //         darthvader_triggers[darthvader_triggers.length - 1].currentTime = (darthvader_triggers[i].currentTime);
+    //         darthvader_triggers[darthvader_triggers.length - 1].play();
+    //       }
+    //     }
+    // }
        
       
       // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
 
-      }
-    }
-  }
+  // }
+  //    }
+  //   }   
+  
 
 </script>
 
