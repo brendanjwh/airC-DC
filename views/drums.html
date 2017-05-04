@@ -130,12 +130,10 @@ var button8 = new Image();
 button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
 
-notes = ["floor_tom", "snare", "kick", "hi_hat", "", "crash", "cowbell"];
-
 var urlHash = {
   "floor_tom": "https://7972657d7c.dataplicity.io/6/blink", 
   "snare": "https://7972657d7c.dataplicity.io/17/blink", 
-  "kick": "https://7972657d7c.dataplicity.io/11/blink", 
+  "kick_drum": "https://7972657d7c.dataplicity.io/11/blink", 
   "hi_hat": "https://7972657d7c.dataplicity.io/5/blink", 
   "crash": "https://7972657d7c.dataplicity.io/22/blink", 
   "cowbell": "https://7972657d7c.dataplicity.io/9/blink"
@@ -177,12 +175,22 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
 
 var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
 
-var snareSuppressor = new FunctionSuppressor({threshold: 100 });
-var kickSuppressor = new FunctionSuppressor({threshold: 500});
+var snareSuppressor = new FunctionSuppressor({threshold: 150 });
+var kickSuppressor = new FunctionSuppressor({threshold: 400});
+var hi_hatSuppressor = new FunctionSuppressor({threshold: 200 });
+var crashSuppressor = new FunctionSuppressor({threshold: 500});
+var floor_tomSuppressor = new FunctionSuppressor({threshold: 150 });
+var rideSuppressor = new FunctionSuppressor({threshold: 200});
+var cowbellSuppressor = new FunctionSuppressor({threshold: 300});
 
 var instrumentHash = {
   "snare": snareSuppressor,
-  "kick": kickSuppressor
+  "kick_drum": kickSuppressor,
+  "hi_hat": hi_hatSuppressor,
+  "crash": crashSuppressor,
+  "floor_tom": floor_tomSuppressor,
+  "ride": rideSuppressor,
+  "cowbell": cowbellSuppressor
 }
 
 function getSuppressor(sound, audio) {
@@ -192,6 +200,8 @@ function getSuppressor(sound, audio) {
 
 function playSound(sound){
   var audio = document.getElementById(sound);
+  console.log(audio);
+  console.log(sound);
   //if (readyToPlay(audio) === true) {
     //delay(audio);
     getSuppressor(sound, audio);
@@ -220,8 +230,6 @@ function render()
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-
-    
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
@@ -229,11 +237,10 @@ function render()
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
-
   }
 }
 
-
+var triggers = []
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -256,11 +263,13 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     {
-
+      triggers.push(1)
+      if (triggers.length <= 7){
+        return
+      }
       highlightscontext.drawImage( buttons[b].image, (buttons[b].x - 50), (buttons[b].y - 50), 200, 200 );
       playSound(buttons[b].name)
-      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
-      // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+      console.log( "Button " + buttons[b].name + " triggered." ); 
     }
   }
 }
