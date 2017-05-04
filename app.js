@@ -15,6 +15,8 @@ var bass = require('./routes/bass');
 var dj1 = require('./routes/dj1');
 var dj2 = require('./routes/dj2');
 var guitar = require('./routes/guitar');
+var gong = require('./routes/gong');
+
 
 var app = express();
 
@@ -30,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
-app.use('/favicon.ico', express.static('images/favicon.ico'));
+app.use('/favicon.ico', express.static('favicon.ico'));
 
 app.use('/', index);
 app.use('/users', users);
@@ -44,6 +46,8 @@ app.get('/dj1', function(req, res) { res.render('dj1')})
 app.get('/dj2', function(req, res) { res.render('dj2')})
 app.get('/scenes', function(req, res) { res.render('scenes')})
 app.get('/guitar', function(req, res) { res.render('guitar')})
+app.get('/gong', function(req, res) { res.render('gong')})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
