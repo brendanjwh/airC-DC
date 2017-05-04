@@ -174,11 +174,21 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
 var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
 
 var snareSuppressor = new FunctionSuppressor({threshold: 150 });
-var kickSuppressor = new FunctionSuppressor({threshold: 500});
+var kickSuppressor = new FunctionSuppressor({threshold: 400});
+var hi_hatSuppressor = new FunctionSuppressor({threshold: 200 });
+var crashSuppressor = new FunctionSuppressor({threshold: 500});
+var floor_tomSuppressor = new FunctionSuppressor({threshold: 150 });
+var rideSuppressor = new FunctionSuppressor({threshold: 200});
+var cowbellSuppressor = new FunctionSuppressor({threshold: 300});
 
 var instrumentHash = {
   "snare": snareSuppressor,
-  "kick": kickSuppressor
+  "kick": kickSuppressor,
+  "hi_hat": hi_hatSuppressor,
+  "crash": crashSuppressor,
+  "floor_tom": floor_tomSuppressor,
+  "ride": rideSuppressor,
+  "cowbell": cowbellSuppressor
 }
 
 function getSuppressor(sound, audio) {
