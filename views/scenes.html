@@ -20,7 +20,7 @@
     <th><a href="/piano"><button class="button">Air Piano</button></a></th>
     <th><a href="/gong"><button class="button">Hit The Gong!!!</button></a></th>
     <th><a href="/team"><button class="button">About the Team</button></a></th>
-    <th><a href="/trump"><button class="button">Trump Mode</button></a></th>
+    <!-- <th><a href="/trump"><button class="button">Trump Mode</button></a></th> -->
     <th><a href="/"><button class="button">Home</button></a></th>
 
   </tr>
@@ -102,12 +102,12 @@ var buttons = [];
 
 var button1 = new Image();
 button1.src ="images/nvr-motion detection.jpg";
-var buttonData1 = { name:"MOTION DETECTED!!! =)", image:button1, x:150, y:100, w:75, h:75 };
+var buttonData1 = { name:"MOTION DETECTED!!!", image:button1, x:150, y:100, w:75, h:75 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
 button2.src ="images/ghost.jpeg";
-var buttonData2 = { name:"You went through a ghost! =O", image:button2, x:375, y:300, w:75, h:75 };
+var buttonData2 = { name:"You went through a ghost!", image:button2, x:375, y:300, w:75, h:75 };
 buttons.push( buttonData2 );
 
 
@@ -223,7 +223,7 @@ function checkAreas()
       
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
       
-      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " has been triggered.</b></font>";
+      messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " has been hit.</b></font>";
 
       // if (messageArea.innerHTML === '<font size="+10" color="I" see="" you.....=""><b>Button I SEE YOU..... fucked.</b></font>') {
       //   console.log("POOP");
