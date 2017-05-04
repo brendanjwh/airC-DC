@@ -129,16 +129,76 @@ buttons.push( buttonData8 );
 var button9 = new Image();
 button9.src ="/images/crowd.png";
 var buttonData9 = { image:button9, x:0, y:800, w:1800, h:100 };
+ 
 
+var urlHash = {
+  "Red Key": "https://7972657d7c.dataplicity.io/6/blink", 
+  "Orange Key": "https://7972657d7c.dataplicity.io/17/blink", 
+  "Yellow Key": "https://7972657d7c.dataplicity.io/11/blink", 
+  "Green Key": "https://7972657d7c.dataplicity.io/5/blink", 
+  "Light Green Key": "https://7972657d7c.dataplicity.io/22/blink", 
+  "Blue Key": "https://7972657d7c.dataplicity.io/9/blink"
+}
+ // "https://7972657d7c.dataplicity.io/10/", "https://7972657d7c.dataplicity.io/27/"}
+// theUrl = "https://7972657d7c.dataplicity.io/17/"
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
+    console.log("here");
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+function FunctionSuppressor(args) {
+  this.callback = args.callback;
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    httpGet("https://7972657d7c.dataplicity.io/6/blink")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+FunctionSuppressor.prototype.playAudio = function(audio)  {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    delay(audio); 
+    audio.play();
+    this.lastFiredAt = Date.now(); 
+  }
+}
+var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+
+var RedKeySuppressor = new FunctionSuppressor({threshold: 500 });
+var OrangeKeySuppressor = new FunctionSuppressor({threshold: 500});
+var YellowKeySuppressor = new FunctionSuppressor({threshold: 500 });
+var GreenKeySuppressor = new FunctionSuppressor({threshold: 500});
+var LightGreenKeySuppressor = new FunctionSuppressor({threshold: 500 });
+var BlueKeySuppressor = new FunctionSuppressor({threshold: 500});
+var PurpleKeySuppressor = new FunctionSuppressor({threshold: 500});
+
+var instrumentHash = {
+  "Red Key": RedKeySuppressor,
+  "Orange Key": OrangeKeySuppressor,
+  "Yellow Key": YellowKeySuppressor,
+  "Green Key": GreenKeySuppressor,
+  "Light Green Key": LightGreenKeySuppressor,
+  "Blue Key": BlueKeySuppressor,
+  "Purple Key": PurpleKeySuppressor
+}
+
+function getSuppressor(sound, audio) {
+  console.log(instrumentHash[sound]);
+  instrumentHash[sound].playAudio(audio);
+}
 
 function playSound(sound){
-  console.log(sound);
   var audio = document.getElementById(sound);
-  console.log(audio);
-  if (readyToPlay(audio) === true) {
-    delay(audio);
-    audio.play();
-  }
+  getSuppressor(sound, audio);
  }
 
 function readyToPlay(soundTime) {
@@ -154,12 +214,7 @@ function delay(sound) {
   if (sound.duration > 0 && !sound.paused) {
       sound.currentTime = 0;
     }
-  } 
-
-function pause(sound) {
-  var audio = document.getElementById(sound);
-    audio.pause();
-  } 
+  }  
 
 
 // called in animate function
@@ -204,27 +259,19 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 25) // more than 20% movement detected
     {
-      // triggers.push('trigger');
-      // for (var i = 0; i < triggers.length; i++){
-      //   if (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7 || i === 8 || i === 9 || i === 10 ){
-      //     pause(buttons[b].name)
-      //   } else {
+      triggers.push(1)
+      if (triggers.length <= 7){
+        return
+    }
       highlightscontext.drawImage( highlight1.image, (buttons[b].x - 10), (buttons[b].y +10), highlight1.w, highlight1.h );  
       playSound(buttons[b].name)
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
-      // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
-      //   }
-      // }
+      
     }
   }
 }
 
-// var highlights = document.getElementById( 'highlights' );
-// var highlightscontext = layer2Canvas.getContext( '2d' );  
 
-// var highlight = new Image();
-// button1.src ="/images/song.png";
-// var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:200, h:400 };
 
 </script>
 <script type="text/javascript" src="javascripts/music_app.js"></script>

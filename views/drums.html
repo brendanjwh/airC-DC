@@ -114,7 +114,6 @@ buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/bass_drum.png";
-
 var buttonData5 = { name:"kick_drum", image:button5, x:100, y:600, w:100, h:100 };
 buttons.push( buttonData5 );
 
@@ -242,7 +241,7 @@ function render()
   }
 }
 
-
+var triggers = []
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -265,11 +264,14 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     {
-
+      triggers.push(1)
+      if (triggers.length <= 7){
+        return
+      }
       highlightscontext.drawImage( buttons[b].image, (buttons[b].x - 50), (buttons[b].y - 50), 200, 200 );
       playSound(buttons[b].name)
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
-      // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";
+     
     }
   }
 }
