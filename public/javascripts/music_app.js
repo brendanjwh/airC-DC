@@ -62,7 +62,8 @@ function animate()
     requestAnimationFrame( animate ); //The window.requestAnimationFrame() method tells the browser that you wish to perform an animation and requests that the browser call a specified function to update an animation before the next repaint. The method takes as an argument a callback to be invoked before the repaint. 
   
   render(); //this renders the mirror video canvas and the canvas with buttons adding the video and buttons as graphics to their respective canvas. 
-  blend();  
+  blend(); 
+  //call timeout function here 
   checkAreas();
   // timeOut = setTimeout(animate(), 1000/60); //this sets how many pics/second are taken. wasn't working properly also, with the first parameter, was messing stuff up giving errors in console. Not necessary to have, was fun feature to add. 
 }
