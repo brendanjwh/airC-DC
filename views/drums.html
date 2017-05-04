@@ -22,6 +22,7 @@
 
 <table align="center">
   <tr>
+
     <th><a href="/bass"><button class="button">Air Bass</button></a></th>
     <th><a href="/dj1"><button class="button">Air DJ Set 1</button></a></th>
     <th><a href="/dj2"><button class="button">Air DJ Set2</button></a></th>
@@ -32,6 +33,7 @@
     <th><a href="/scenes"><button class="button">Behind the Scenes</button></a></th>
     <th><a href="/trump"><button class="button">Trump Mode</button></a></th>
     <th><a href="/"><button class="button">Home</button></a></th>
+
   </tr>
 </table>
 
@@ -53,8 +55,6 @@
 
 <div id="messageError"></div>
 <!-- <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div> -->
-
-
 
   <audio id="floor_tom">
     <source src='audio/floor_tom.mp3'></source>
@@ -114,6 +114,7 @@ buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/bass_drum.png";
+
 var buttonData5 = { name:"kick_drum", image:button5, x:100, y:600, w:100, h:100 };
 buttons.push( buttonData5 );
 
@@ -130,13 +131,6 @@ buttons.push( buttonData7 );
 var button8 = new Image();
 button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
-
-notes = ["floor_tom", "snare", "kick", "hi_hat", "", "crash", "cowbell"];
-sounds = [];
-
-for (var i =0; i < notes.length; i++) {
-  sounds.push( document.getElementById(notes[i]));
-}
 
 var urlHash = {
   "floor_tom": "https://7972657d7c.dataplicity.io/6/blink", 
@@ -160,15 +154,63 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
+function FunctionSuppressor(args) {
+  this.callback = args.callback;
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    httpGet("https://7972657d7c.dataplicity.io/6/blink")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+FunctionSuppressor.prototype.playAudio = function(audio)  {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    delay(audio); 
+    audio.play();
+    this.lastFiredAt = Date.now(); 
+  }
+}
+
+var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+
+var snareSuppressor = new FunctionSuppressor({threshold: 150 });
+var kickSuppressor = new FunctionSuppressor({threshold: 400});
+var hi_hatSuppressor = new FunctionSuppressor({threshold: 200 });
+var crashSuppressor = new FunctionSuppressor({threshold: 500});
+var floor_tomSuppressor = new FunctionSuppressor({threshold: 150 });
+var rideSuppressor = new FunctionSuppressor({threshold: 200});
+var cowbellSuppressor = new FunctionSuppressor({threshold: 300});
+
+var instrumentHash = {
+  "snare": snareSuppressor,
+  "kick": kickSuppressor,
+  "hi_hat": hi_hatSuppressor,
+  "crash": crashSuppressor,
+  "floor_tom": floor_tomSuppressor,
+  "ride": rideSuppressor,
+  "cowbell": cowbellSuppressor
+}
+
+function getSuppressor(sound, audio) {
+  console.log(instrumentHash[sound]);
+  instrumentHash[sound].playAudio(audio);
+}
 
 function playSound(sound){
   var audio = document.getElementById(sound);
-  if (readyToPlay(audio) === true) {
-    delay(audio);
-    console.log(sound);
-    audio.play();
-    httpGet(urlHash[sound]);
-  }
+  console.log(audio);
+  console.log(sound);
+  //if (readyToPlay(audio) === true) {
+    //delay(audio);
+    getSuppressor(sound, audio);
+    //audioSuppressor.playAudio(audio);
+    //audio.play();
+    //requestSuppressor.fire();
+  //}
  }
 
 function readyToPlay(soundTime) {
@@ -190,8 +232,6 @@ function render()
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-
-    
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
@@ -199,7 +239,6 @@ function render()
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
-
   }
 }
 

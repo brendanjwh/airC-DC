@@ -37,15 +37,6 @@ function noStream(e)
 }
 
 window.onload = function() { 
-  // the webcam stream
-  // var monitor = document.getElementById('monitor');
-
-  // var videoCanvas = document.getElementById('videoCanvas');
-  // var videoContext = videoCanvas.getContext('2d');
-
-  // var greenCanvas = document.getElementById('blendCanvas');
-  // var greenCanvasContext = greenCanvas.getContext('2d');
-
 
 /* ======================================================== 
                     global variable setup
@@ -169,10 +160,7 @@ function checkStrum(blendedData) {
       sum += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]);
       ++i;
     }
-    // console.log(sum);
   var average = Math.round(sum / (3 * countPixels));
-  //debugger
-  //console.log(average);
   if (average > 70) {
     return true;
   }
