@@ -14,6 +14,11 @@ To play guitar and bass- it is best to use lime green to trigger the notes and s
 
 * [Node.js](https://nodejs.org/en/docs/) - The web framework used
 
+## Helpful Resources for this project
+* Romuald Quantin [JavaScript motion detection](http://www.adobe.com/devnet/archive/html5/articles/javascript-motion-detection.html)
+*[stemkoski](https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Webcam-Motion-Detection.html)
+
+
 ## Authors
 
 - **Brendan White: [brendanjwk](https://github.com/brendanjwh), [LinkedIn](https://www.linkedin.com/in/brendan-white-3b14b827)**
