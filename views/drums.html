@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>AirC&#9889DC</title>
-  <!-- http://www.webrtc.org/ -->
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
    <link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -33,7 +33,6 @@
     <th><a href="/scenes"><button class="button">Behind the Scenes</button></a></th>
     <!-- <th><a href="/trump"><button class="button">Trump Mode</button></a></th> -->
     <th><a href="/"><button class="button">Home</button></a></th>
-
   </tr>
 </table>
 
@@ -270,8 +269,7 @@ function checkAreas()
       }
       highlightscontext.drawImage( buttons[b].image, (buttons[b].x - 50), (buttons[b].y - 50), 200, 200 );
       playSound(buttons[b].name)
-      console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
-     
+      console.log( "Button " + buttons[b].name + " triggered." ); 
     }
   }
 }

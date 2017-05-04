@@ -37,6 +37,8 @@
 
 <!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
 <canvas id="blendCanvas" width="500px" height="500px" style="margin: auto; position: relative; bottom: 375px; left: 550px;" ></canvas>
+
+<canvas id="greenCanvas" width="500px" height="500px" style="margin: auto; position: relative; bottom: 375px; left: 550px;" ></canvas>
 <div id="messageError"></div>
 <div id="messageArea" style="position: absolute; left: 25px; top: 150px;" align="center"></div>
 
@@ -91,6 +93,9 @@ var layer2Context = layer2Canvas.getContext( '2d' );
 var blendCanvas  = document.getElementById( "blendCanvas" );
 var blendContext = blendCanvas.getContext('2d');
 
+var greenCanvas = document.getElementById( "greenCanvas");
+var greenContext = greenCanvas.getContext('2d');
+
 var messageArea = document.getElementById( "messageArea" );
 var timeout
     
@@ -109,10 +114,6 @@ var button2 = new Image();
 button2.src ="images/ghost.jpeg";
 var buttonData2 = { name:"You went through a ghost!", image:button2, x:375, y:300, w:75, h:75 };
 buttons.push( buttonData2 );
-
-
-
-
 
 // start the loop       
 animate();
@@ -140,9 +141,6 @@ function render()
       // this is where the buttons are being placed on one canvas.
 
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );
-        
-      
-
   }
 }
 
@@ -159,7 +157,6 @@ function blend()
   var blendedData = videoContext.createImageData(width, height);
   // blend the 2 images
   differenceAccuracy(blendedData.data, sourceData.data, lastImageData.data);
-  
   
   // draw the result in a canvas
   blendContext.putImageData(blendedData, 0, 0);
@@ -183,7 +180,6 @@ function differenceAccuracy(target, data1, data2)
     target[4*i+3] = 0xFF;
     ++i;
   }
-
 }
 
 // fastAbs and threshold functions are plugged into the differenceAccuracy function
@@ -195,9 +191,6 @@ function threshold(value) // refers to the change in pixels, we are setting the 
 {
   return (value > 0x15) ? 0xFF : 0;
 }
-
-
-
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -230,8 +223,6 @@ function checkAreas()
       //   layer2Context.drawImage( button4, 0, 0, 500, 500 );
       //   window.setTimeout(animate(), 5000);
       // }
-
-
     }
   }
 }
