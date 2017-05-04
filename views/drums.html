@@ -111,7 +111,7 @@ buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/bass_drum.png";
-var buttonData5 = { name:"bass_drum", image:button5, x:100, y:600, w:100, h:100 };
+var buttonData5 = { name:"kick", image:button5, x:100, y:600, w:100, h:100 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
@@ -127,13 +127,6 @@ buttons.push( buttonData7 );
 var button8 = new Image();
 button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
-
-notes = ["floor_tom", "snare", "kick", "hi_hat", "", "crash", "cowbell"];
-sounds = [];
-
-for (var i =0; i < notes.length; i++) {
-  sounds.push( document.getElementById(notes[i]));
-}
 
 var urlHash = {
   "floor_tom": "https://7972657d7c.dataplicity.io/6/blink", 
@@ -180,7 +173,7 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
 
 var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
 
-var snareSuppressor = new FunctionSuppressor({threshold: 100 });
+var snareSuppressor = new FunctionSuppressor({threshold: 150 });
 var kickSuppressor = new FunctionSuppressor({threshold: 500});
 
 var instrumentHash = {
@@ -195,6 +188,8 @@ function getSuppressor(sound, audio) {
 
 function playSound(sound){
   var audio = document.getElementById(sound);
+  console.log(audio);
+  console.log(sound);
   //if (readyToPlay(audio) === true) {
     //delay(audio);
     getSuppressor(sound, audio);
@@ -223,8 +218,6 @@ function render()
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-
-    
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
     highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
@@ -232,7 +225,6 @@ function render()
     for ( var i = 0; i < buttons.length; i++ )
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
-
   }
 }
 
