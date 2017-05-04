@@ -135,19 +135,47 @@ var button8 = new Image();
 button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
 
+notes = ["floor_tom", "snare", "kick", "hi_hat", "", "crash", "cowbell"];
+sounds = [];
+
+for (var i =0; i < notes.length; i++) {
+  sounds.push( document.getElementById(notes[i]));
+}
+
+var urlHash = {
+  "floor_tom": "https://7972657d7c.dataplicity.io/6/blink", 
+  "snare": "https://7972657d7c.dataplicity.io/17/blink", 
+  "kick": "https://7972657d7c.dataplicity.io/11/blink", 
+  "hi_hat": "https://7972657d7c.dataplicity.io/5/blink", 
+  "crash": "https://7972657d7c.dataplicity.io/22/blink", 
+  "cowbell": "https://7972657d7c.dataplicity.io/9/blink"
+} 
+
+
+  // "https://7972657d7c.dataplicity.io/10/", "https://7972657d7c.dataplicity.io/27/"}
+// theUrl = "https://7972657d7c.dataplicity.io/17/"
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
+    console.log("here");
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
 
 function playSound(sound){
-  console.log(sound);
   var audio = document.getElementById(sound);
-  console.log(audio);
   if (readyToPlay(audio) === true) {
     delay(audio);
+    console.log(sound);
     audio.play();
+    httpGet(urlHash[sound]);
   }
  }
 
 function readyToPlay(soundTime) {
-  console.log(soundTime);
   if ((soundTime.currentTime > .26) || (soundTime.currentTime === 0)) {
     return true
   } else {
@@ -160,9 +188,6 @@ function delay(sound) {
       sound.currentTime = 0;
     }
   } 
-
-
-
 
 // called in animate function
 function render() 
