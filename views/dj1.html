@@ -48,7 +48,9 @@
 <!-- video canvas is the mirror -->
 <canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
-<canvas id="highlights" width="1400px" height="900px" style="opacity: 0.7;margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+<canvas id="highlights" width="1400px" height="900px" style="opacity: 0.8; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
+
+<canvas id="highlights2" width="1400px" height="900px" style="transform: rotateY(180deg); -webkit-transform:rotateY(180deg); -moz-transform:rotateY(-180deg); opacity: 0.5; margin: auto;  top: 75px; position: absolute;" align="center"></canvas>
 
 <!-- layer 2 has the button/instrument detections in them -->
 <canvas id="layer2" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1;" align="center"></canvas>
@@ -65,11 +67,14 @@
 <script>
 
 var highlights = document.getElementById( 'highlights' );
-var highlightscontext = highlights.getContext( '2d' );       
+var highlightscontext = highlights.getContext( '2d' ); 
+
+var highlights2 = document.getElementById( 'highlights2' );
+var highlights2context = highlights2.getContext( '2d' );      
 
 var highlight = new Image();
-highlight.src ="/images/song.png";
-var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:200, h:400 };
+highlight.src ="/images/SquareRed.png";
+var highlight1 = { name:"highlight", image:highlight, x:0, y:0, w:150, h:150 };
 
 var buttons = [];
 
@@ -121,6 +126,7 @@ button10.src ="images/mic.png";
 var buttonData10 = { name:"Darth Vader", image:button10, x:50, y:50, w:100, h:100 };
 buttons.push( buttonData10 );
 
+
 var trancebass_audio = new Audio("audio/electrobass.mp3");
 var drummix_audio = new Audio("audio/drum_mix.mp3");
 var guitar_audio = new Audio("audio/guitar.mp3");
@@ -130,34 +136,57 @@ var beer_audio = new Audio("audio/ineedabeervoice.mp3");
 var marshmello_audio = new Audio("audio/marshmello.mp3");
 var darthvader_audio = new Audio("audio/darthvadervoice.mp3");
 
-
+audio = [trancebass_audio,drummix_audio, guitar_audio, piano_audio, violin_audio, beer_audio, marshmello_audio, darthvader_audio ]
 // called in animate function
 function render() 
 { 
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
-    highlightscontext.drawImage( button7, 0, 0, 1400, 1000 );
-    highlightscontext.drawImage( button6, 0, 700, 1400, 200 );
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
-    for ( var i = 0; i < buttons.length; i++ )
+    highlightscontext.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlights2context.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
+    highlightscontext.drawImage( button7, 0, 0, 1400, 1000 );
+    highlightscontext.drawImage( button6, 0, 700, 1400, 200 );
+    for ( var x = 0; x < audio.length; x++ ) {
+      if (audio[0].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData1.x -25, buttonData1.y -25, 150, 150 );
+      }
+       if (audio[1].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData2.x -25, buttonData2.y -25, 150, 150 );
+      }
+       if (audio[2].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData3.x -25, buttonData3.y -25, 150, 150 );
+      }
+       if (audio[3].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData4.x -25, buttonData4.y -25, 150, 150 );
+      }
+       if (audio[4].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData5.x -25, buttonData5.y -25, 150, 150 );
+      }
+       if (audio[5].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData8.x -25, buttonData8.y -25, 150, 150 );
+      }
+       if (audio[6].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData9.x -25, buttonData9.y -25, 150, 150 );
+      }
+       if (audio[7].paused === false){
+        highlights2context.drawImage( highlight1.image, buttonData10.x - 25, buttonData10.y - 25, 150, 150 );
+      }
+    }
+
+    for ( var i = 0; i < buttons.length; i++ ) {
       // this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h ); 
+    }
+
+
 
   }
 
 }
 
 
-var drummix = 0
-var drummix_triggers = []
-var trancebass_triggers = []
-var guitar_triggers = []
-var marshmello_triggers = []
-var piano_triggers = []
-var violin_triggers = []
-var beer_triggers = []
-var darthvader_triggers = []
 
 
 function FunctionSuppressor(args) {
@@ -165,35 +194,48 @@ function FunctionSuppressor(args) {
   this.threshold = args.threshold;
 }
 
-FunctionSuppressor.prototype.fire = function() {
+FunctionSuppressor.prototype.fire = function(audio) {
   if (Date.now() - this.lastFiredAt > this.threshold) {
-    console.log("hey")
     this.lastFiredAt = Date.now();
-    if (drummix_audio.paused === true){
-    drummix_audio.play()
-    } else if (drummix_audio.paused === false) {
-    drummix_audio.pause()
+    if (audio.paused === true){
+      audio.play()
+    } else if (audio.paused === false) {
+      audio.pause()
   }
     
   }
 }
 
-var suppressor = new FunctionSuppressor({threshold: 1000 })
+FunctionSuppressor.prototype.loopfire = function(audio) {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    this.lastFiredAt = Date.now();
+    if (audio.paused === true && audio.loop === false){
+      audio.play()
+      audio.loop = true
+    } else if (audio.paused === false && audio.loop === true) {
+      audio.pause()
+      audio.loop = false
+  }
+    
+  }
+}
+
+var trancebasssuppressor = new FunctionSuppressor({threshold: 1000 })
+var drummixsuppressor = new FunctionSuppressor({threshold: 1000 })
+var guitarsuppressor = new FunctionSuppressor({threshold: 1000 })
+var pianosuppressor = new FunctionSuppressor({threshold: 1000 })
+var violinsuppressor = new FunctionSuppressor({threshold: 1000 })
+var beersuppressor = new FunctionSuppressor({threshold: 1000 })
+var marshmellosuppressor = new FunctionSuppressor({threshold: 1000 })
+var darthvadersuppressor = new FunctionSuppressor({threshold: 1000 })
 
 
 
 // check if white region from blend overlaps area of interest (e.g. buttons)
-var lasttrigger = new Date()
-lasttrigger = lasttrigger.getTime()
-
+var triggers = []
 function checkAreas() 
 {
   
-  
-
-  
-
-
   // buttons are the images being touched
   for (var b = 0; b < buttons.length; b++) 
   {
@@ -212,143 +254,40 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     { 
- 
-      suppressor.fire()
+      triggers.push(1)
+      if (triggers.length <= 8){
+        return
+      }
+
+      if (buttons[b].name === 'Drums') {
+        trancebasssuppressor.loopfire(drummix_audio)
+      } else if (buttons[b].name === 'Bass') {
+        drummixsuppressor.loopfire(trancebass_audio)
+      }
+      else if (buttons[b].name === 'Guitar') {
+        guitarsuppressor.loopfire(guitar_audio)
+      }
+      else if (buttons[b].name === 'Song') {
+        marshmellosuppressor.fire(marshmello_audio)
+      }
+      else if (buttons[b].name === 'Piano') {
+        pianosuppressor.loopfire(piano_audio)
+      }
+      else if (buttons[b].name === 'Violin') {
+        violinsuppressor.loopfire(violin_audio)
+      }
+      else if (buttons[b].name === 'Beer Voice') {
+        beersuppressor.fire(beer_audio)
+      }
+      else if (buttons[b].name === 'Darth Vader') {
+        darthvadersuppressor.fire(darthvader_audio)
+      }
+      
         }
     }
      }
-      
-      // anytime a button is triggered, it's triggered multiple times on accident. So, we want to focus only on the last button. We iterate through all the buttons triggered. We don't do anything with them except for the last button triggered. We start that button off playing. If we trigger some buttons again, we loop through to see if any buttons are currently playing. If they are, just pause that button and end the loop. Then, if we trigger some buttons again, we loop through to see if all of the buttons are paused. If they are, we will trigger the last triggered button to start playing.
-      
-
     
-      // if (buttons[b].name === 'Drums') {
-      // //   drummix += 1
-      //    drummix_triggers.push(drummix_audio)
-      //   for (i = 0; i < drummix_triggers.length; i++) {
-      //     if (i === 0 || i === 1 ){
-      //       drummix_triggers[i].pause();
-      //     }
-      //     else if (drummix_triggers[i].paused === false) {
-      //       drummix_triggers[i].pause();
-      //     }
-      //     else if (drummix_triggers[i].paused === true){
-      //       drummix_triggers[drummix_triggers.length - 1].currentTime = (drummix_triggers[i].currentTime);
-      //       drummix_triggers[drummix_triggers.length - 1].play();
-      //     }
-      //   }
-      // }
-    //   } else if (buttons[b].name === 'Bass') {
-    //     trancebass_triggers.push(trancebass_audio)
-    //     for (i = 0; i < trancebass_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         trancebass_triggers[i].pause();
-    //       }
-    //       else if (trancebass_triggers[i].paused === false) {
-    //         trancebass_triggers[i].pause();
-    //       }
-    //       else if (trancebass_triggers[i].paused === true){
-    //         trancebass_triggers[trancebass_triggers.length - 1].currentTime = (trancebass_triggers[i].currentTime);
-    //         trancebass_triggers[trancebass_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Guitar') {
-    //     guitar_triggers.push(guitar_audio)
-    //     for (i = 0; i < guitar_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         guitar_triggers[i].pause();
-    //       }
-    //       else if (guitar_triggers[i].loop === true && guitar_triggers[i].paused === false) {
-    //         guitar_triggers[i].loop = false
-    //         guitar_triggers[i].pause();
-    //       }
-    //       else if (guitar_triggers[i].paused === true){
-    //         guitar_triggers[guitar_triggers.length - 1].currentTime = (guitar_triggers[i].currentTime);
-    //         guitar_triggers[piano_triggers.length - 1].loop = true
-    //         guitar_triggers[guitar_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Song') {
-    //     marshmello_triggers.push(marshmello_audio)
-    //     for (i = 0; i < marshmello_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         marshmello_triggers[i].pause();
-    //       }
-    //       else if (marshmello_triggers[i].paused === false) {
-    //         marshmello_triggers[i].pause();
-    //       }
-    //       else if (marshmello_triggers[i].paused === true){
-    //         marshmello_triggers[marshmello_triggers.length - 1].currentTime = (marshmello_triggers[i].currentTime);
-    //         marshmello_triggers[marshmello_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Piano') {
-    //     piano_triggers.push(piano_audio)
-    //     for (i = 0; i < piano_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         piano_triggers[i].pause();
-    //       }
-    //       else if (piano_triggers[i].loop === true && piano_triggers[i].paused === false) {
-    //         piano_triggers[i].loop = false
-    //         piano_triggers[i].pause();
-    //       }
-    //       else if (piano_triggers[i].paused === true){
-    //         piano_triggers[piano_triggers.length - 1].currentTime = (piano_triggers[i].currentTime);
-    //         piano_triggers[piano_triggers.length - 1].loop = true
-    //         piano_triggers[piano_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Violin') {
-    //     violin_triggers.push(violin_audio)
-    //     for (i = 0; i < violin_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2){
-    //         violin_triggers[i].pause();
-    //       }
-    //       else if (violin_triggers[i].loop === true && violin_triggers[i].paused === false) {
-    //         violin_triggers[i].loop = false
-    //         violin_triggers[i].pause();
-    //       }
-    //       else if (violin_triggers[i].paused === true){
-    //         violin_triggers[violin_triggers.length - 1].currentTime = (violin_triggers[i].currentTime);
-    //         beer_triggers[beer_triggers.length - 1].loop = true
-    //         violin_triggers[violin_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Beer Voice') {
-    //     beer_triggers.push(beer_audio)
-    //     for (i = 0; i < beer_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         beer_triggers[i].pause();
-    //       }
-    //       else if (beer_triggers[i].paused === false) {
-    //         beer_triggers[i].pause();
-    //       }
-    //       else if (beer_triggers[i].paused === true){
-    //         beer_triggers[beer_triggers.length - 1].currentTime = (beer_triggers[i].currentTime);
-    //         beer_triggers[beer_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
-    // else if (buttons[b].name === 'Darth Vader') {
-    //     darthvader_triggers.push(darthvader_audio)
-    //     for (i = 0; i < darthvader_triggers.length; i++) {
-    //       if (i === 0 || i === 1 || i === 2 ){
-    //         darthvader_triggers[i].pause();
-    //       }
-    //       else if (darthvader_triggers[i].paused === false) {
-    //         darthvader_triggers[i].pause();
-    //       }
-    //       else if (darthvader_triggers[i].paused === true){
-    //         darthvader_triggers[darthvader_triggers.length - 1].currentTime = (darthvader_triggers[i].currentTime);
-    //         darthvader_triggers[darthvader_triggers.length - 1].play();
-    //       }
-    //     }
-    // }
+  
        
       
       // messageArea.innerHTML = "<font size='+10' color=" + buttons[b].name + "><b>Button " + buttons[b].name + " fucked.</b></font>";

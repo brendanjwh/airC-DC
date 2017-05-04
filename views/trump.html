@@ -80,6 +80,8 @@ button1.src ="images/trump5.png";
 var buttonData1 = { name:"trump", image:button1, x:500, y:500, w:1, h:1 };
 buttons.push( buttonData1 );
 
+
+
 function playSound(sound){
   console.log(sound);
   var audio = document.getElementById(sound);
@@ -120,8 +122,8 @@ function render()
 }
 
 
-var sounds = ["trumpbuildwall", "trumpchina", "trumpjail", "trumprich", "trumpstopit", "trumpwrong"]
-
+var sounds = ["trumpbuildwall", "trumpchina", "trumpjail", "trumprich", "trumpstopit", "trumpwrong", "trumpstopit", "trumpstopit", "trumpstopit"]
+var triggers = []
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -144,6 +146,10 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     {
+      triggers.push(1)
+      if (triggers.length <= 1){
+        return
+      }
 
       playSound(sounds[Math.floor(Math.random() * sounds.length)])
 
@@ -162,34 +168,9 @@ function checkAreas()
       var buttonData2 = { name:"trump", image:button2, x:random_position, y:random_position2, w:175, h:175 };
       buttons.push( buttonData2 );
 
-      // var button3 = new Image();
-      // button3.src ="assets/images/trump3.jpeg";
-      // var buttonData3 = { name:"Trump", image:button3, x:random_position, y:random_position2, w:175, h:175 };
-      // buttons.push( buttonData3 );
-
-      // var button4 = new Image();
-      // button4.src ="assets/images/trump2.jpeg";
-      // var buttonData4 = { name:"Trump", image:button4, x:random_position, y:random_position2, w:175, h:175 };
-      // buttons.push( buttonData4 );
-
-      // var button5 = new Image();
-      // button5.src ="assets/images/trump5.jpeg";
-      // var buttonData5 = { name:"Trump", image:button5, x:random_position, y:random_position2, w:175, h:175 };
-      // buttons.push( buttonData5 );
-
-      // var button6 = new Image();
-      // button6.src ="assets/images/trump6.jpeg";
-      // var buttonData6 = { name:"Trump", image:button6, x:random_position, y:random_position2, w:175, h:175 };
-      // buttons.push( buttonData6 );
-
-      // var button7 = new Image();
-      // button7.src ="assets/images/trump1.jpeg";
-      // var buttonData7 = { name:"Trump", image:button7, x:random_position, y:random_position2, w:175, h:175 };
-      // buttons.push( buttonData7 );
 
       layer2Context.drawImage( buttonData2.image, buttonData2.x, buttonData2.y, buttonData2.w, buttonData2.h );
 
-      // layer2Context.drawImage( (buttons[Math.floor(Math.random() * buttons.length)].image), (buttons[Math.floor(Math.random() * buttons.length)].x), (buttons[Math.floor(Math.random() * buttons.length)].y), (buttons[Math.floor(Math.random() * buttons.length)].w), (buttons[Math.floor(Math.random() * buttons.length)].h) );
 
 
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
