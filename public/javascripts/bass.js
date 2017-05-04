@@ -2,9 +2,9 @@
               javascript sound button set up
    ======================================================== */
 
-// var button7 = new Image();
-// button7.src ="/images/bass.png";
-// var buttonData7 = { name:"guitar", image:button7, x:100, y:750, w:1060, h:-500 };
+var button7 = new Image();
+button7.src ="/images/basstwo.png";
+var buttonData7 = { name:"guitar", image:button7, x:100, y:750, w:1060, h:-500 };
 
 var buttons = [];
 
