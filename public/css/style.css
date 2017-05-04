@@ -140,6 +140,8 @@ body {
 
 h1 {
   position: relative;
+  font-size: 2.5em;
+  text-decoration: underline;
   color: black;
 }
 
