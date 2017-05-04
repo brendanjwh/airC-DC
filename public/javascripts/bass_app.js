@@ -90,6 +90,7 @@ function render()
   {
     // mirror video
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
+     layer2Context.drawImage( buttonData7.image, buttonData7.x, buttonData7.y, buttonData7.w, buttonData7.h );
     for ( var i = 0; i < buttons.length; i++ ) {
       //this is where the buttons are being placed on one canvas.
       layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );        
