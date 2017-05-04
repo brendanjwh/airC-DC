@@ -44,7 +44,7 @@ var showbuttons = [];
 
 var button1 = new Image();
 button1.src ="images/pick.png";
-var buttonData1 = { name:"strum", image:button1, x:825, y:700, w:160, h:160, class:"strum" };
+var buttonData1 = { name:"strum", image:button1, x:1155, y:700, w:190, h:190, class:"strum" };
 showbuttons.push( buttonData1 );
 
 var button2 = new Image();
