@@ -20,22 +20,22 @@ buttons.push( buttonData2 );
 
 var button3 = new Image();
 button3.src ="images/a.png";
-var buttonData3 = { name:"A", image:button2, x:1000, y:160, w:100, h:100 };
+var buttonData3 = { name:"A", image:button3, x:1000, y:160, w:100, h:100 };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
 button4.src ="images/b.png";
-var buttonData4 = { name:"B", image:button2, x:800, y:300, w:100, h:100 };
+var buttonData4 = { name:"B", image:button4, x:800, y:300, w:100, h:100 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
 button5.src ="images/d.png";
-var buttonData5 = { name:"D", image:button2, x:590, y:450, w:100, h:100 };
+var buttonData5 = { name:"D", image:button5, x:590, y:450, w:100, h:100 };
 buttons.push( buttonData5 );
 
 var button6 = new Image();
 button6.src ="images/e.png";
-var buttonData6 = { name:"E_hi", image:button2, x:360, y:590, w:100, h:100 };
+var buttonData6 = { name:"E_hi", image:button6, x:360, y:590, w:100, h:100 };
 buttons.push( buttonData6 );
 
 notes = ["A", "B", "D", "strum", "E_hi", "G"];
