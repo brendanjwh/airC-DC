@@ -82,7 +82,7 @@ body {
 
 #homepage {
   background-image: url("/images/music.png");
-  background-size: 80% 160%;
+  background-size: 80% 140%;
   display: block; 
   position: relative;
   top: 0;
@@ -102,7 +102,7 @@ body {
 @keyframes spin { 50% { -webkit-transform: rotate(40deg); transform:rotate(20deg); } }
 
 #Alex {
-  top: 98%;
+  top: 90%;
   left: 35.5%;
   width: 120px;
   height: 120px;
@@ -111,7 +111,7 @@ body {
 
 
 #Brendan {
-  top: 119%;
+  top: 115%;
   left: 65.5%;
   width: 120px;
   height: 120px;
@@ -120,7 +120,7 @@ body {
 
 
 #Chris {
-  top: 177%;
+  top: 165%;
   left: 17.5%;
   width: 120px;
   height: 120px;
@@ -129,7 +129,7 @@ body {
 
 
 #Derek {
-  top: 157%;
+  top: 150%;
   left: 45.7%;
   width: 120px;
   height: 120px;
