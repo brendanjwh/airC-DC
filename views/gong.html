@@ -83,6 +83,20 @@ button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
 
 
+function FunctionSuppressor(args) {
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    playSound("gong")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+var gongSuppressor = new FunctionSuppressor({threshold: 1500 });
+
 function playSound(sound){
   console.log(sound);
   var audio = document.getElementById(sound);
@@ -129,7 +143,7 @@ function render()
   }
 }
 
-
+triggers = []
 // check if white region from blend overlaps area of interest (e.g. buttons)
 function checkAreas() 
 {
@@ -152,9 +166,14 @@ function checkAreas()
     var average = Math.round(sum / (3 * countPixels));
     if (average > 50) // more than 20% movement detected
     {
+      triggers.push(1);
+      if (triggers.length <= 2) {
+        return
+      }
 
       highlightscontext.drawImage( buttons[b].image, (buttons[b].x - 175), (buttons[b].y - 125), 700, 700 );
-      playSound(buttons[b].name)
+      gongSuppressor.fire();
+      // playSound(buttons[b].name)
 
 
       console.log( "Button " + buttons[b].name + " triggered." ); // do stuff
