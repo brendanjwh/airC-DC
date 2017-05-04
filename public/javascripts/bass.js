@@ -62,6 +62,21 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
+function FunctionSuppressor(args) {
+  this.callback = args.callback;
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    httpGet("https://7972657d7c.dataplicity.io/6/blink")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+var suppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
     return true;

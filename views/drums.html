@@ -31,7 +31,6 @@
     <th><a class="button" href="/bass"><button>Air Bass</button></a></th>
     <th><a class="button" href="/"><button>Home</button></a></th>
 
-
   </tr>
 </table>
 
@@ -53,8 +52,6 @@
 
 <div id="messageError"></div>
 <!-- <div id="messageArea" style="position: relative; top: 0px;" align="center">Messages will be displayed here.</div> -->
-
-
 
   <audio id="floor_tom">
     <source src='audio/floor_tom.mp3'></source>
@@ -160,15 +157,51 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
+function FunctionSuppressor(args) {
+  this.callback = args.callback;
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    httpGet("https://7972657d7c.dataplicity.io/6/blink")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+FunctionSuppressor.prototype.playAudio = function(audio)  {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    delay(audio); 
+    audio.play();
+    this.lastFiredAt = Date.now(); 
+  }
+}
+
+var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+
+var snareSuppressor = new FunctionSuppressor({threshold: 100 });
+var kickSuppressor = new FunctionSuppressor({threshold: 500});
+
+var instrumentHash = {
+  "snare": snareSuppressor,
+  "kick": kickSuppressor
+}
+
+function getSuppressor(sound, audio) {
+  console.log(instrumentHash[sound]);
+  instrumentHash[sound].playAudio(audio);
+}
 
 function playSound(sound){
   var audio = document.getElementById(sound);
-  if (readyToPlay(audio) === true) {
-    delay(audio);
-    console.log(sound);
-    audio.play();
-    httpGet(urlHash[sound]);
-  }
+  //if (readyToPlay(audio) === true) {
+    //delay(audio);
+    getSuppressor(sound, audio);
+    //audioSuppressor.playAudio(audio);
+    //audio.play();
+    //requestSuppressor.fire();
+  //}
  }
 
 function readyToPlay(soundTime) {
