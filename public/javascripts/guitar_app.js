@@ -55,6 +55,15 @@ var video = document.getElementById( 'monitor' );
 var videoCanvas = document.getElementById( 'videoCanvas' );
 var videoContext = videoCanvas.getContext( '2d' );
 
+var layer2showCanvas = document.getElementById( 'layer2showimages' );
+var layer2showContext = layer2showCanvas.getContext( '2d' );
+
+var highlights = document.getElementById( 'highlights' );
+var highlightscontext = highlights.getContext( '2d' );
+
+var highlights2 = document.getElementById( 'highlights2' );
+var highlights2context = highlights2.getContext( '2d' );
+
 var layer2Canvas = document.getElementById( 'layer2' );
 var layer2Context = layer2Canvas.getContext( '2d' );
 // //GREEN SOCK CAM
@@ -89,12 +98,15 @@ function render()
   if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
   {
     // mirror video
+    highlights2context.clearRect(0, 0, videoCanvas.width, videoCanvas.height)
     videoContext.drawImage( video, 0, 0, videoCanvas.width, videoCanvas.height );
-    layer2Context.drawImage( buttonData7.image, buttonData7.x, buttonData7.y, buttonData7.w, buttonData7.h );
-
+     highlightscontext.drawImage( buttonData7.image, buttonData7.x, buttonData7.y, buttonData7.w, buttonData7.h );
     for ( var i = 0; i < buttons.length; i++ ) {
       //this is where the buttons are being placed on one canvas.
-      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );        
+      layer2Context.drawImage( buttons[i].image, buttons[i].x, buttons[i].y, buttons[i].w, buttons[i].h );  
+      }
+    for ( var i = 0; i < showbuttons.length; i++ ) {
+      layer2showContext.drawImage( showbuttons[i].image, showbuttons[i].x, showbuttons[i].y, showbuttons[i].w, showbuttons[i].h );      
   }
 }}
 

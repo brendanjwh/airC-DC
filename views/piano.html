@@ -173,13 +173,13 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
 }
 var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
 
-var RedKeySuppressor = new FunctionSuppressor({threshold: 500 });
-var OrangeKeySuppressor = new FunctionSuppressor({threshold: 500});
-var YellowKeySuppressor = new FunctionSuppressor({threshold: 500 });
-var GreenKeySuppressor = new FunctionSuppressor({threshold: 500});
-var LightGreenKeySuppressor = new FunctionSuppressor({threshold: 500 });
-var BlueKeySuppressor = new FunctionSuppressor({threshold: 500});
-var PurpleKeySuppressor = new FunctionSuppressor({threshold: 500});
+var RedKeySuppressor = new FunctionSuppressor({threshold: 800 });
+var OrangeKeySuppressor = new FunctionSuppressor({threshold: 800});
+var YellowKeySuppressor = new FunctionSuppressor({threshold: 800 });
+var GreenKeySuppressor = new FunctionSuppressor({threshold: 800});
+var LightGreenKeySuppressor = new FunctionSuppressor({threshold: 800 });
+var BlueKeySuppressor = new FunctionSuppressor({threshold: 800});
+var PurpleKeySuppressor = new FunctionSuppressor({threshold: 800});
 
 var instrumentHash = {
   "Red Key": RedKeySuppressor,

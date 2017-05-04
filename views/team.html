@@ -37,14 +37,14 @@
 <video align="center" id="monitor" autoplay width: 1400; height: 900;></video>
 
 
-<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center">
+<div id="canvasLayers" width="1400px" height="900px" style="margin: auto;  top: 125px; position: absolute;" align="center">
 <!-- video canvas is the mirror -->
-<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+<canvas id="videoCanvas" width="1400px" height="900px" style="margin: auto;  top: 125px; position: absolute;" align="center"></canvas>
 
-<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 75px; position: absolute; opacity: 1; z-index: 1;" align="center"></canvas>
+<canvas id="highlights" width="1400px" height="900px" style="margin: auto;  top: 125px; position: absolute; opacity: 1; z-index: 1;" align="center"></canvas>
 
 <!-- layer 2 has the button/instrument detections in them -->
-<canvas id="layer2" width="1400px" height="900px" style="opacity: 1; margin: auto;  top: 100px; position: absolute;" align="center"></canvas>
+<canvas id="layer2" width="1400px" height="900px" style="opacity: 1; margin: auto;  top: 125px; position: absolute;" align="center"></canvas>
 </div>
 
 <!-- blend canvas is where all the photos are being taken in black and white and comparing the pixel changes based on diff. background image, detecting "movement" when the images are different from different motions -->
@@ -68,25 +68,25 @@ var buttons = [];
 var button1 = new Image();
 button1.src ="images/Chris.png";
 
-var buttonData1 = { name:"Chris Frazzini", email:"cfrazzin@indiana.edu", github: "https://github.com/CFrazz25", image:button1, x:1100, y:150, w:300, h:300 };
+var buttonData1 = { name:"Chris Frazzini", email:"cfrazzin@indiana.edu", github: "https://github.com/CFrazz25", image:button1, x:1100, y:150, w:200, h:200 };
 buttons.push( buttonData1 );
 
 var button2 = new Image();
 button2.src ="images/Derek.png";
 
-var buttonData2 = { name:"Derek Georgevich", email:"dgeorgevich@gmail.com", github: "https://github.com/DGeorgevich", image:button2, x:750, y:150, w:300, h:300 };
+var buttonData2 = { name:"Derek Georgevich", email:"dgeorgevich@gmail.com", github: "https://github.com/DGeorgevich", image:button2, x:750, y:150, w:200, h:200 };
 buttons.push( buttonData2 );
 
 var button3 = new Image();
 button3.src ="images/Alex.png";
 
-var buttonData3 = { name:"Alex Origitano", email:"aorigitano@gmail.com", github:"https://github.com/Alexthegurl", image:button3, x:400, y:150, w:300, h:300 };
+var buttonData3 = { name:"Alex Origitano", email:"aorigitano@gmail.com", github:"https://github.com/Alexthegurl", image:button3, x:400, y:150, w:200, h:200 };
 buttons.push( buttonData3 );
 
 var button4 = new Image();
 button4.src ="images/Brendannotweird.png";
 
-var buttonData4 = { name:"Brendan White", email:"brendanjwh@gmail.com", github:"https://github.com/brendanjwh", image:button4, x:10, y:150, w:300, h:300 };
+var buttonData4 = { name:"Brendan White", email:"brendanjwh@gmail.com", github:"https://github.com/brendanjwh", image:button4, x:10, y:150, w:200, h:200 };
 buttons.push( buttonData4 );
 
 var button5 = new Image();
