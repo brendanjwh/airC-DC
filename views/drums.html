@@ -173,7 +173,7 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
   }
 }
 
-var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 300 })
 
 var snareSuppressor = new FunctionSuppressor({threshold: 150 });
 var kickSuppressor = new FunctionSuppressor({threshold: 400});
