@@ -103,7 +103,7 @@ body {
 @keyframes spin { 50% { -webkit-transform: rotate(40deg); transform:rotate(20deg); } }
 
 #Alex {
-  top: 45%;
+  top: 47%;
   left: 32%;
   width: 220px;
   height: 220px;
@@ -112,7 +112,7 @@ body {
 
 
 #Brendan {
-  top: 44%;
+  top: 57%;
   left: 61%;
   width: 220px;
   height: 220px;
@@ -121,7 +121,7 @@ body {
 
 
 #Chris {
-  top: 110%;
+  top: 121%;
   left: 14%;
   width: 220px;
   height: 220px;
@@ -130,7 +130,7 @@ body {
 
 
 #Derek {
-  top: 80%;
+  top: 99%;
   left: 44%;
   width: 220px;
   height: 220px;
@@ -171,6 +171,7 @@ table {
   background-color: white; 
   position: relative;
   float: right;
+  top: 0px;
   width: 17%;
   cursor: url("/images/yellowbolt.png"), default;
 }
@@ -179,9 +180,9 @@ table {
   outline: none;
   background-color: #ffffff;
   box-shadow: 10px 10px 5px #888888;
-  border-radius:3px;
+  border-radius:4px;
   color: black;
-  font-size: 16px;
+  font-size: 24px;
   width: 8em;
   padding: 3px 3px;
   box-sizing: border-box;
