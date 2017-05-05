@@ -79,6 +79,67 @@ for (var i = 0; i < notes.length; i++) {
   sounds.push( document.getElementById(notes[i]));
 }
 
+var urlHash = {
+  "A": "https://7972657d7c.dataplicity.io/6/blink", 
+  "B": "https://7972657d7c.dataplicity.io/17/blink", 
+  "D": "https://7972657d7c.dataplicity.io/11/blink", 
+  "strum": "https://7972657d7c.dataplicity.io/5/blink", 
+  "E_hi": "https://7972657d7c.dataplicity.io/22/blink", 
+  "G": "https://7972657d7c.dataplicity.io/9/blink"
+} 
+
+var instrumentHash = {
+  "A": aSuppressor,
+  "B": bSuppressor,
+  "D": dSuppressor,
+  "strum": strumSuppressor,
+  "E_hi": e_hiSuppressor,
+  "G": gSuppressor,
+}
+
+var aSuppressor = new FunctionSuppressor({threshold: 150 });
+var dSuppressor = new FunctionSuppressor({threshold: 150 });
+var bSuppressor = new FunctionSuppressor({threshold: 150 });
+var strumSuppressor = new FunctionSuppressor({threshold: 150 });
+var e_hiSuppressor = new FunctionSuppressor({threshold: 150 });
+var gSuppressor = new FunctionSuppressor({threshold: 150 });
+
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
+    console.log("here");
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+function FunctionSuppressor(args) {
+  this.callback = args.callback;
+  this.lastFiredAt = Date.now();
+  this.threshold = args.threshold;
+}
+
+FunctionSuppressor.prototype.fire = function() {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    httpGet("https://7972657d7c.dataplicity.io/6/blink")
+    this.lastFiredAt = Date.now();
+  }
+}
+
+function getSuppressor(sound, audio) {
+  //instrumentHash[sound].playAudio(audio);
+  //httpGet(urlHash[sound]);
+}
+
+FunctionSuppressor.prototype.playAudio = function(audio)  {
+  if (Date.now() - this.lastFiredAt > this.threshold) {
+    delay(audio); 
+    audio.play();
+    this.lastFiredAt = Date.now(); 
+  }
+}
+
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
     return true;
@@ -86,14 +147,16 @@ function isStrumming(buttonName) {
   return false;
 }
 
+
+
 function playSound(sound){
   //debugger
   var audio = document.getElementById(sound);
   if (readyToPlay(audio)) {
     delay(audio);
     stopNote(sounds);
-    console.log(audio); 
     audio.play();
+    //getSuppressor(sound, audio);
   }
  }
 
