@@ -103,7 +103,7 @@ body {
 @keyframes spin { 50% { -webkit-transform: rotate(40deg); transform:rotate(20deg); } }
 
 #Alex {
-  top: 47%;
+  top: 57%;
   left: 32%;
   width: 220px;
   height: 220px;
@@ -112,7 +112,7 @@ body {
 
 
 #Brendan {
-  top: 57%;
+  top: 65%;
   left: 61%;
   width: 220px;
   height: 220px;
@@ -121,7 +121,7 @@ body {
 
 
 #Chris {
-  top: 121%;
+  top: 135%;
   left: 14%;
   width: 220px;
   height: 220px;
@@ -130,7 +130,7 @@ body {
 
 
 #Derek {
-  top: 99%;
+  top: 106%;
   left: 44%;
   width: 220px;
   height: 220px;
