@@ -9,6 +9,7 @@ We are deployed on Heroku! Just visit https://lit-mesa-76346.herokuapp.com/ to s
 ## Best Practices
 To play guitar and bass- it is best to use lime green to trigger the notes and strum. 
 - Three feet away from your laptop computer is the best distance in order to get the most out of the motion capture technology.
+- In order to be able to play the bass and guitar, lime gloves or socks are needed. 
 
 ## Built With
 
