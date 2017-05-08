@@ -131,12 +131,13 @@ button8.src ="images/crowd.png";
 var buttonData8 = { image:button8, x:0, y:800, w:1800, h:100 };
 
 var urlHash = {
-  "floor_tom": "https://7972657d7c.dataplicity.io/6/blink", 
+  "floor_tom": "https://7972657d7c.dataplicity.io/11/blink", 
   "snare": "https://7972657d7c.dataplicity.io/17/blink", 
   "kick_drum": "https://7972657d7c.dataplicity.io/11/blink", 
-  "hi_hat": "https://7972657d7c.dataplicity.io/5/blink", 
-  "crash": "https://7972657d7c.dataplicity.io/22/blink", 
-  "cowbell": "https://7972657d7c.dataplicity.io/9/blink"
+  "hi_hat": "https://7972657d7c.dataplicity.io/27/blink", 
+  "crash": "https://7972657d7c.dataplicity.io/17/blink", 
+  "cowbell": "https://7972657d7c.dataplicity.io/5/blink",
+  "ride": "https://7972657d7c.dataplicity.io/27/blink"
 } 
 
 
@@ -173,7 +174,7 @@ FunctionSuppressor.prototype.playAudio = function(audio)  {
   }
 }
 
-var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
+var requestSuppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 300 })
 
 var snareSuppressor = new FunctionSuppressor({threshold: 150 });
 var kickSuppressor = new FunctionSuppressor({threshold: 400});
@@ -194,14 +195,12 @@ var instrumentHash = {
 }
 
 function getSuppressor(sound, audio) {
-  console.log(instrumentHash[sound]);
   instrumentHash[sound].playAudio(audio);
+  httpGet(urlHash[sound]);
 }
 
 function playSound(sound){
   var audio = document.getElementById(sound);
-  console.log(audio);
-  console.log(sound);
   //if (readyToPlay(audio) === true) {
     //delay(audio);
     getSuppressor(sound, audio);

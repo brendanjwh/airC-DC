@@ -92,11 +92,16 @@ var urlHash = {
 
 function httpGet(theUrl)
 {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    console.log("here");
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+  console.log("here");
+  xmlHttp.send( null );
+  return xmlHttp.responseText;
+}
+
+function getSuppressor(sound, audio) {
+  instrumentHash[sound].playAudio(audio);
+  httpGet(urlHash[sound]);
 }
 
 function FunctionSuppressor(args) {
