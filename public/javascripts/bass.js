@@ -73,9 +73,17 @@ showbuttons.push( buttonData6 );
 notes = ["A", "B", "D", "strum", "E_hi", "G"];
 sounds = [];
 
+/* ======================================================== 
+populating the sounds array with html DOM elements that are the buttons 
+   ======================================================== */
+
 for (var i =0; i < notes.length; i++) {
   sounds.push( document.getElementById(notes[i]));
 }
+
+/* ======================================================== 
+       Rasberry Pi route set up (key: note, value: url)
+   ======================================================== */
 
 var urlHash = {
   "A": "https://7972657d7c.dataplicity.io/6/blink", 
@@ -86,9 +94,9 @@ var urlHash = {
   "G": "https://7972657d7c.dataplicity.io/9/blink"
 } 
 
-
-  // "https://7972657d7c.dataplicity.io/10/", "https://7972657d7c.dataplicity.io/27/"}
-// theUrl = "https://7972657d7c.dataplicity.io/17/"
+/* ======================================================== 
+         HTTP request based on the url hash
+   ======================================================== */
 
 function httpGet(theUrl)
 {
@@ -110,6 +118,10 @@ function FunctionSuppressor(args) {
   this.threshold = args.threshold;
 }
 
+/* ======================================================== 
+  waits a duration of time before making another request to the pi
+   ======================================================== */
+
 FunctionSuppressor.prototype.fire = function() {
   if (Date.now() - this.lastFiredAt > this.threshold) {
     httpGet("https://7972657d7c.dataplicity.io/6/blink")
@@ -119,6 +131,11 @@ FunctionSuppressor.prototype.fire = function() {
 
 var suppressor = new FunctionSuppressor({callback: httpGet("https://7972657d7c.dataplicity.io/6/blink"), threshold: 500 })
 
+
+/* ======================================================== 
+        is the button triggered the strum button?
+   ======================================================== */
+
 function isStrumming(buttonName) {
   if (buttonName === "strum") {
     return true;
@@ -126,19 +143,24 @@ function isStrumming(buttonName) {
   return false;
 }
 
-// timeOutFunction();
+/* ======================================================== 
+    If the conditions to play are satisfied, the sound is triggered
+   ======================================================== */
+
 function playSound(sound){
   var audio = document.getElementById(sound);
   if (readyToPlay(audio)) {
     delay(audio);
     stopNote(sounds);
     audio.play();
-    //httpGet(urlHash[sound]);
-    //mediaPlay(audio);
   }
  }
 
-   httpGet(urlHash[sound]);
+httpGet(urlHash[sound]);
+
+/* ======================================================== 
+  This allows a sound to be restarted if it's still playing but has been triggered
+   ======================================================== */
 
  function stopNote(sounds) {
     for (var i =0; i < sounds.length; i++) {
@@ -148,6 +170,12 @@ function playSound(sound){
       }
     }
  }
+
+ /* ======================================================== 
+      sets the conditions for when a sound can be played again
+      don't want a sound to trigger like 300 times with one
+      hand motion over the button trigger
+   ======================================================== */
 
 function readyToPlay(soundTime) {
   console.log(soundTime.currentTime);
