@@ -15,6 +15,10 @@ if (!navigator.getUserMedia)
 
 navigator.getUserMedia({video: true, audio: false}, gotStream, noStream);
 
+/* ======================================================== 
+       setting up the stream for the webcam
+   ======================================================== */
+
 function gotStream(stream) 
 {
   if (window.URL) 
@@ -41,7 +45,7 @@ window.onload = function() {
 /* ======================================================== 
                     global variable setup
    ======================================================== */
-   var video = document.getElementById( 'monitor' );
+var video = document.getElementById( 'monitor' );
 // var video = monitor;
 var videoCanvas = document.getElementById( 'videoCanvas' );
 var videoContext = videoCanvas.getContext( '2d' );
@@ -57,13 +61,11 @@ var highlights2context = highlights2.getContext( '2d' );
 
 var layer2Canvas = document.getElementById( 'layer2' );
 var layer2Context = layer2Canvas.getContext( '2d' );
-// //GREEN SOCK CAM
+
+//GREEN SOCK CAM
 var blendCanvas  = document.getElementById( "blendCanvas" );
 var blendContext = blendCanvas.getContext('2d');
-// var greenCanvas = document.getElementById('blendCanvas');
-//   var greenCanvasContext = greenCanvas.getContext('2d');
-//  var blendContext = videoContext;  
-// background color if no video present
+
 videoContext.fillStyle = '#005337';
 videoContext.fillRect( 0, 0, videoCanvas.width, videoCanvas.height );       
 
@@ -129,6 +131,12 @@ function differenceAccuracy(target, data1, data2)
   var i = 0;
   while (i < (data1.length * 0.25)) 
   {
+    /* ======================================================== 
+              this is where the pixel color is looked at
+              and compared to the threshold we want (ie is it 
+              green enough?)
+   ======================================================== */
+
     // (((data1[4*i] < 150) && (data1[4*i+1] > 150) && (data1[4*i+2] < 150)) === true)
     if (data1[4*i+1] > data1[4*i+2] &&  data1[4*i+1] > data1[4*i] + 20 && data1[4*i+2] < 150) {
       //if ((data1[4*i+2] < 150) === true) {
